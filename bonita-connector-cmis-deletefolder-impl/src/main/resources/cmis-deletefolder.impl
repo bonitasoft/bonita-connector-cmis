@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	
+	<definitionId>cmis-deletefolder</definitionId>
+	<definitionVersion>1.0.0</definitionVersion>
+    <description>Delete a folder. Based on apache chemistry</description>
+	<implementationClassname>org.bonitasoft.connectors.cmis.DeleteFolder</implementationClassname>
+	<implementationId>cmis-deletefolder</implementationId>
+	<implementationVersion>1.0.0</implementationVersion>
+
+$Dependencies$
+
+</implementation:connectorImplementation>
