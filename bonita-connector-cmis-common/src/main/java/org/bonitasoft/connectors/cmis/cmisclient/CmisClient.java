@@ -43,6 +43,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
 /**
  * This class is responsible for all business level interaction with a CMIS server
  * @author Frederic Bouquet
+ * @author Romain Bioteau
  */
 public class CmisClient {
     private Session session;
@@ -52,10 +53,6 @@ public class CmisClient {
     }
 
     public CmisClient(String username, String password, String url, String bindingType, String repository) {
-        // Needed to avoir a conflict with jaxb.
-        // See http://stackoverflow.com/questions/14162159/supplying-a-different-version-of-jaxb-for-jax-ws-in-java-1-6
-        System.setProperty("javax.xml.bind.JAXBContext", "com.sun.xml.internal.bind.v2.ContextFactory");
-
         createSessionByRepositoryName(username, password, url, bindingType, repository);
     }
 
