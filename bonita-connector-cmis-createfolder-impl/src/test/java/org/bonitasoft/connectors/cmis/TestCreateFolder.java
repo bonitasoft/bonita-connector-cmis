@@ -66,7 +66,7 @@ public class TestCreateFolder {
 				alfrescoTestConfig.getProperty(BINDING),
 				alfrescoTestConfig.getProperty(REPOSITORY));
 		
-		String parentFolder = "/User Hmes/qa";
+		String parentFolder = "/User Homes/qa";
 		String folderName = "testFolder";
 		Folder f = null;
 		try{
