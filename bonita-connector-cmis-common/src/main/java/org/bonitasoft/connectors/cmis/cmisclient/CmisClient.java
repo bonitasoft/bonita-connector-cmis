@@ -30,6 +30,7 @@ import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.apache.chemistry.opencmis.client.bindings.spi.webservices.CmisWebServicesSpi;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
@@ -46,14 +47,23 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
  * @author Romain Bioteau
  */
 public class CmisClient {
-    private Session session;
+   
+	private Session session;
 
     public CmisClient() {
 
     }
 
     public CmisClient(String username, String password, String url, String bindingType, String repository) {
-        createSessionByRepositoryName(username, password, url, bindingType, repository);
+    	System.setProperty("org.apache.chemistry.opencmis.binding.webservices.jaxws.impl",CmisWebServicesSpi.JAXWS_IMPL_JRE);
+    	session = createSessionByRepositoryName(username, password, url, bindingType, repository);
+    }
+    
+    public void clearSession(){
+    	if(session != null){
+    		session.clear();
+    		session = null;
+    	}
     }
 
     /**
@@ -66,7 +76,6 @@ public class CmisClient {
      */
     public List<Repository> getRepositories(final String username,
                                                  final String password, final String url, final String bindingType) {
-
         final SessionFactory f = SessionFactoryImpl.newInstance();
         final Map<String, String> parameter = fixParameters(username, password,
                 url, bindingType);
@@ -236,18 +245,18 @@ public class CmisClient {
         return parameter;
     }
 
-    private void createSessionByRepositoryId(final String username,
+    private Session createSessionByRepositoryId(final String username,
                                                 final String password, final String url, final String bindingType,
                                                 final String repositoryId) {
         final SessionFactory f = SessionFactoryImpl.newInstance();
         final Map<String, String> parameter = fixParameters(username, password,
                 url, bindingType);
         parameter.put(SessionParameter.REPOSITORY_ID, repositoryId);
-        session = f.createSession(parameter);
+        return f.createSession(parameter);
     }
 
-    private void createSessionByRepositoryName(String username,String password, String url, String bindingType, String repositoryName) {
+    private Session createSessionByRepositoryName(String username,String password, String url, String bindingType, String repositoryName) {
         String repositoryId = getRepositoryIdByName(username, password, url, bindingType, repositoryName);
-        createSessionByRepositoryId(username, password, url, bindingType, repositoryId);
+        return createSessionByRepositoryId(username, password, url, bindingType, repositoryId);
     }
 }

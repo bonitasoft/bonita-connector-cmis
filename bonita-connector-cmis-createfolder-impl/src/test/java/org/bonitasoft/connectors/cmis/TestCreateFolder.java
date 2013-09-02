@@ -66,13 +66,13 @@ public class TestCreateFolder {
 				alfrescoTestConfig.getProperty(BINDING),
 				alfrescoTestConfig.getProperty(REPOSITORY));
 		
-		String parentFolder = "/User Homes/qa";
+		String parentFolder = "/User Hmes/qa";
 		String folderName = "testFolder";
 		Folder f = null;
 		try{
 			f = client.getFolderByPath(parentFolder+"/"+folderName);
 		}catch(CmisObjectNotFoundException e){
-			
+		
 		}
 		
 		if(f != null){
