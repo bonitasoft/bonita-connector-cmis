@@ -28,44 +28,60 @@ import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 
 public class DeleteVersionOfDocument extends AbstractConnector {
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String URL = "url";
-    public static final String BINDING_TYPE = "binding_type";
-    public static final String REPOSITORY = "repository";
+	public static final String USERNAME = "username";
+	public static final String PASSWORD = "password";
+	public static final String URL = "url";
+	public static final String BINDING_TYPE = "binding_type";
+	public static final String REPOSITORY = "repository";
 
-    private static final String DOCUMENT_ID = "document_id";
-    private Map<String, Object> parameters;
+	private static final String DOCUMENT_PATH = "documentPath";
+	private static final Object VERSION_LABEL = "versionLabel";
+	private Map<String, Object> parameters;
+	private CmisClient cmisClient;
 
-    @Override
-    public void setInputParameters(Map<String, Object> parameters) {
-        this.parameters = parameters;
-    }
+	@Override
+	public void setInputParameters(Map<String, Object> parameters) {
+		this.parameters = parameters;
+	}
 
-    @Override
-    protected void executeBusinessLogic() throws ConnectorException {
-        String username = (String) parameters.get(USERNAME);
-        String password = (String) parameters.get(PASSWORD);
-        String url = (String) parameters.get(URL);
-        String bindingType = (String) parameters.get(BINDING_TYPE);
-        String repository = (String) parameters.get(REPOSITORY);
+	@Override
+	public void connect() throws ConnectorException {
+		super.connect();
+		String username = (String) parameters.get(USERNAME);
+		String password = (String) parameters.get(PASSWORD);
+		String url = (String) parameters.get(URL);
+		String bindingType = (String) parameters.get(BINDING_TYPE);
+		String repository = (String) parameters.get(REPOSITORY);
+		cmisClient = new CmisClient(username, password, url, bindingType, repository);
+	}
 
-        String documentVersionId = (String) parameters.get(DOCUMENT_ID);
+	@Override
+	public void disconnect() throws ConnectorException {
+		super.disconnect();
+		if(cmisClient != null){
+			cmisClient.clearSession();
+			cmisClient = null;
+		}
+	}
 
-        CmisClient cmisClient = new CmisClient(username, password, url, bindingType, repository);
+	@Override
+	protected void executeBusinessLogic() throws ConnectorException {
+		if(cmisClient != null){
+			String documentPath = (String) parameters.get(DOCUMENT_PATH);
+			String versionLabel = (String) parameters.get(VERSION_LABEL);
+			cmisClient.deleteVersionOfDocumentByLabel(documentPath,versionLabel);
+		}
+	}
 
-        cmisClient.deleteVersionOfDocument(documentVersionId);
-    }
+	@Override
+	public void validateInputParameters() throws ConnectorValidationException {
+		List<String> errors = new ArrayList<String>();
+		CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
+		errors.addAll(cmisParametersValidator.validateCommonParameters());
+		errors.addAll(cmisParametersValidator.validateSpecificParameters());
 
-    @Override
-    public void validateInputParameters() throws ConnectorValidationException {
-        List<String> errors = new ArrayList<String>();
-        CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
-        errors.addAll(cmisParametersValidator.validateCommonParameters());
-        errors.addAll(cmisParametersValidator.validateSpecificParameters());
-
-        if (!errors.isEmpty()) {
-            throw new ConnectorValidationException(this, errors);
-        }
-    }
+		if (!errors.isEmpty()) {
+			throw new ConnectorValidationException(this, errors);
+		}
+	}
 }

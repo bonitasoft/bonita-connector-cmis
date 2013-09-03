@@ -12,7 +12,8 @@
     <input name="repository" type="java.lang.String" mandatory="true" defaultValue="Main Repository"/>
     <input name="binding_type" type="java.lang.String" mandatory="true" defaultValue="webservices" />
 
-    <input name="document_id" type="java.lang.String" mandatory="true" defaultValue="workspace://SpacesStore/8ddabf79-7ca3-47ea-b2ca-5e269e9f190f" />
+    <input name="documentPath" type="java.lang.String" mandatory="true" defaultValue="/myDocument.txt" />
+    <input name="versionLabel" type="java.lang.String" mandatory="true" defaultValue="1.0" />
 
 	<page id="server">
         <widget id="url" inputName="url" xsi:type="definition:Text"/>
@@ -26,7 +27,8 @@
     </page>
 
     <page id="document">
-        <widget id="document_id" inputName="document_id" xsi:type="definition:Text" />
+        <widget id="documentPath" inputName="documentPath" xsi:type="definition:Text" />
+        <widget id="versionLabel" inputName="versionLabel" xsi:type="definition:Text" />
     </page>
 
 </definition:ConnectorDefinition>
