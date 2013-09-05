@@ -74,6 +74,7 @@ public class CreateFolder extends AbstractConnector {
 		super.disconnect();
 		if(cmisClient != null){
 			cmisClient.clearSession();
+			cmisClient = null;
 		}
 	}
 
