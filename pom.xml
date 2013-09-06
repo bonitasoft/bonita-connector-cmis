@@ -22,6 +22,8 @@
         <module>bonita-connector-cmis-deletefolder-impl</module>
         <module>bonita-connector-cmis-deleteversionofdocument-def</module>
         <module>bonita-connector-cmis-deleteversionofdocument-impl</module>
+        <module>bonita-connector-cmis-downloaddocument-def</module>
+        <module>bonita-connector-cmis-downloaddocument-impl</module>
         <module>bonita-connector-cmis-uploadnewdocument-def</module>
         <module>bonita-connector-cmis-uploadnewdocument-impl</module>
         <module>bonita-connector-cmis-uploadnewversionofdocument-def</module>
