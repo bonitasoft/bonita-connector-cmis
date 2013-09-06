@@ -9,7 +9,7 @@
     </parent>
 
     <properties>
-        <implementation.id>cmis-uploadnewdocument</implementation.id>
+        <implementation.id>cmis-downloaddocument</implementation.id>
     </properties>
 
     <artifactId>bonita-connector-cmis-downloaddocument-impl</artifactId>
