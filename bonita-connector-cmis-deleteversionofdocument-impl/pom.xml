@@ -23,7 +23,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>bonita-connector-cmis-common</artifactId>
-            <version>${project.version}</version>
+            <version>${cmis.common.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

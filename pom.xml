@@ -32,6 +32,7 @@
 
 	<properties>
 		<bonita.engine.version>6.2.0</bonita.engine.version>
+		<cmis.common.version>1.0.0</cmis.common.version>
 	</properties>
 
 	<dependencies>
