@@ -103,25 +103,18 @@ public class CreateFolder extends AbstractConnector {
 		this.parameters = parameters;
 		Logger logger = Logger.getLogger(this.getClass().toString());
 		url = (String) parameters.get(URL);
-		System.err.println(url);
 		logger.log(Level.ALL, url);
 		bindingType = (String) parameters.get(BINDING);
-		System.err.println(bindingType);
 		logger.log(Level.ALL, BINDING);
 		username = (String) parameters.get(USERNAME);
-		System.err.println(username);
 		logger.log(Level.ALL, USERNAME);
 		password = (String) parameters.get(PASSWORD);
-		System.err.println(password);
 		logger.log(Level.ALL, PASSWORD);
 		repository = (String) parameters.get(REPOSITORY);
-		System.err.println(repository);
 		logger.log(Level.ALL, REPOSITORY);
 		parentFolderPath = (String) parameters.get(PARENT_FOLDER_PATH);
-		System.err.println(parentFolderPath);
 		logger.log(Level.ALL, PARENT_FOLDER_PATH);
 		folderName = (String) parameters.get(FOLDER_NAME);
-		System.err.println(folderName);
 		logger.log(Level.ALL, FOLDER_NAME);
 	}
 }

@@ -1,53 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>bonita-connectors</artifactId>
-        <groupId>org.bonitasoft.connectors</groupId>
-        <version>6.1.0</version>
-    </parent>
+	<parent>
+		<artifactId>bonita-connectors</artifactId>
+		<groupId>org.bonitasoft.connectors</groupId>
+		<version>1.0.0</version>
+	</parent>
 
-    <artifactId>bonita-connector-cmis</artifactId>
-    <version>6.2.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+	<artifactId>bonita-connector-cmis</artifactId>
+	<packaging>pom</packaging>
 
-    <modules>
-        <module>bonita-connector-cmis-common</module>
-        <module>bonita-connector-cmis-createfolder-def</module>
-        <module>bonita-connector-cmis-createfolder-impl</module>
-        <module>bonita-connector-cmis-deletedocument-def</module>
-        <module>bonita-connector-cmis-deletedocument-impl</module>
-        <module>bonita-connector-cmis-deletefolder-def</module>
-        <module>bonita-connector-cmis-deletefolder-impl</module>
-        <module>bonita-connector-cmis-deleteversionofdocument-def</module>
-        <module>bonita-connector-cmis-deleteversionofdocument-impl</module>
-        <module>bonita-connector-cmis-downloaddocument-def</module>
-        <module>bonita-connector-cmis-downloaddocument-impl</module>
-        <module>bonita-connector-cmis-uploadnewdocument-def</module>
-        <module>bonita-connector-cmis-uploadnewdocument-impl</module>
-        <module>bonita-connector-cmis-uploadnewversionofdocument-def</module>
-        <module>bonita-connector-cmis-uploadnewversionofdocument-impl</module>
-    </modules>
+	<modules>
+		<module>bonita-connector-cmis-common</module>
+		<module>bonita-connector-cmis-createfolder-def</module>
+		<module>bonita-connector-cmis-createfolder-impl</module>
+		<module>bonita-connector-cmis-deletedocument-def</module>
+		<module>bonita-connector-cmis-deletedocument-impl</module>
+		<module>bonita-connector-cmis-deletefolder-def</module>
+		<module>bonita-connector-cmis-deletefolder-impl</module>
+		<module>bonita-connector-cmis-deleteversionofdocument-def</module>
+		<module>bonita-connector-cmis-deleteversionofdocument-impl</module>
+		<module>bonita-connector-cmis-downloaddocument-def</module>
+		<module>bonita-connector-cmis-downloaddocument-impl</module>
+		<module>bonita-connector-cmis-uploadnewdocument-def</module>
+		<module>bonita-connector-cmis-uploadnewdocument-impl</module>
+		<module>bonita-connector-cmis-uploadnewversionofdocument-def</module>
+		<module>bonita-connector-cmis-uploadnewversionofdocument-impl</module>
+	</modules>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<properties>
+		<bonita.engine.version>6.2.0</bonita.engine.version>
+	</properties>
 
-    <scm>
-        <developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-cmis.git</developerConnection>
-        <connection>scm:git:git@github.com:bonitasoft/bonita-connector-cmis.git</connection>
-        <url>https://github.com/bonitasoft/bonita-connector-cmis</url>
-        <tag>HEAD</tag>
-    </scm>
+	<dependencies>
+		<dependency>
+			<!-- Latest Version of Bonita released, against which the initial development 
+				has been done. -->
+			<!-- The connector will be tested against more recent version -->
+			<artifactId>bonita-common</artifactId>
+			<groupId>org.bonitasoft.engine</groupId>
+			<version>${bonita.engine.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-cmis.git</developerConnection>
+		<connection>scm:git:git@github.com:bonitasoft/bonita-connector-cmis.git</connection>
+		<url>https://github.com/bonitasoft/bonita-connector-cmis</url>
+		<tag>HEAD</tag>
+	</scm>
 
 </project>
