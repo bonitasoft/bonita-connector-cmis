@@ -54,9 +54,27 @@ public class DeleteFolder extends AbstractConnector {
         repository = (String) parameters.get(REPOSITORY);
         folderPath = (String) parameters.get(FOLDER_PATH);
     }
+    
+    @Override
+  	public void connect() throws ConnectorException {
+  		super.connect();
+  		cmisClient = new CmisClient(username, password, url, bindingType, repository);
+  	}
+
+  	@Override
+  	public void disconnect() throws ConnectorException {
+  		super.disconnect();
+  		if(cmisClient != null){
+  			cmisClient.clearSession();
+  			cmisClient = null;
+  		}
+  	}
 
     @Override
     protected void executeBusinessLogic() throws ConnectorException {
+    	 if (!cmisClient.checkIfObjectExists(folderPath)) {
+             throw new ConnectorException("Folder "+folderPath+" does not exist!");
+         }
         cmisClient.deleteFolderByPath(folderPath);
     }
 
@@ -66,13 +84,6 @@ public class DeleteFolder extends AbstractConnector {
         CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
         errors.addAll(cmisParametersValidator.validateCommonParameters());
         errors.addAll(cmisParametersValidator.validateSpecificParameters());
-
-        if (errors.isEmpty()) {
-            cmisClient = new CmisClient(username, password, url, bindingType, repository);
-            if (!cmisClient.checkIfObjectExists(folderPath)) {
-                errors.add("Folder "+folderPath+" does not exist");
-            }
-        }
 
         if (!errors.isEmpty()) {
             throw new ConnectorValidationException(this, errors);

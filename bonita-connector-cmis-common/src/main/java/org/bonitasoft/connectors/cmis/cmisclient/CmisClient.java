@@ -30,6 +30,7 @@ import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.apache.chemistry.opencmis.client.bindings.spi.webservices.CmisWebServicesSpi;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
@@ -46,208 +47,226 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
  * @author Romain Bioteau
  */
 public class CmisClient {
-    private Session session;
 
-    public CmisClient() {
+	private Session session;
 
-    }
+	public CmisClient() {
 
-    public CmisClient(String username, String password, String url, String bindingType, String repository) {
-        createSessionByRepositoryName(username, password, url, bindingType, repository);
-    }
+	}
 
-    /**
-     * Retrieve the repositories
-     * @param username the username to access the server
-     * @param password the password to access the server
-     * @param url the URL of the server. It may differ depending on the binding type
-     * @param bindingType the protocol to use to connect the server. Atom or Webservice are supported
-     * @return The list of repositories
-     */
-    public List<Repository> getRepositories(final String username,
-                                                 final String password, final String url, final String bindingType) {
+	public CmisClient(String username, String password, String url, String bindingType, String repository) {
+		System.setProperty("org.apache.chemistry.opencmis.binding.webservices.jaxws.impl",CmisWebServicesSpi.JAXWS_IMPL_JRE);
+		session = createSessionByRepositoryName(username, password, url, bindingType, repository);
+	}
 
-        final SessionFactory f = SessionFactoryImpl.newInstance();
-        final Map<String, String> parameter = fixParameters(username, password,
-                url, bindingType);
-        return f.getRepositories(parameter);
-    }
+	public void clearSession(){
+		if(session != null){
+			session.clear();
+			session = null;
+		}
+	}
 
-    /**
-     * Get a folder object from its path
-     * @param path path to the folder
-     * @return the folder object
-     */
-    public Folder getFolderByPath(final String path) {
-        return (Folder) session.getObjectByPath(path);
-    }
+	/**
+	 * Retrieve the repositories
+	 * @param username the username to access the server
+	 * @param password the password to access the server
+	 * @param url the URL of the server. It may differ depending on the binding type
+	 * @param bindingType the protocol to use to connect the server. Atom or Webservice are supported
+	 * @return The list of repositories
+	 */
+	public List<Repository> getRepositories(final String username,
+			final String password, final String url, final String bindingType) {
+		final SessionFactory f = SessionFactoryImpl.newInstance();
+		final Map<String, String> parameter = fixParameters(username, password,
+				url, bindingType);
+		return f.getRepositories(parameter);
+	}
 
-    /**
-     * Get a CMIS object from a CMIS repository. It may correspond to all kind of objects supported by CMIS.
-     * Please refer to the standard for more information
-     * @param path path to the object
-     * @return the CMIS object
-     */
-    public CmisObject getObjectByPath(final String path) {
-        return session.getObjectByPath(path);
-    }
+	/**
+	 * Get a folder object from its path
+	 * @param path path to the folder
+	 * @return the folder object
+	 */
+	public Folder getFolderByPath(final String path) {
+		return (Folder) session.getObjectByPath(path);
+	}
 
-    /**
-     * Get the Root folder of a CMIS server
-     * @return the root folder
-     */
-    public Folder getRootFolder() {
-        return session.getRootFolder();
-    }
+	/**
+	 * Get a CMIS object from a CMIS repository. It may correspond to all kind of objects supported by CMIS.
+	 * Please refer to the standard for more information
+	 * @param path path to the object
+	 * @return the CMIS object
+	 */
+	public CmisObject getObjectByPath(final String path) {
+		return session.getObjectByPath(path);
+	}
 
-    /**
-     * Check if an object exists
-     * @param objectPath path to the object to check
-     * @return true if the object exists
-     */
-    public Boolean checkIfObjectExists(String objectPath) {
-        try {
-            session.getObjectByPath(objectPath);
-            return true;
-        } catch (CmisObjectNotFoundException e) {
-            return false;
-        }
-    }
+	/**
+	 * Get the Root folder of a CMIS server
+	 * @return the root folder
+	 */
+	public Folder getRootFolder() {
+		return session.getRootFolder();
+	}
 
-    /**
-     * Create a folder
-     * @param parentPath Path in which to create the folder
-     * @param folderName the folder name
-     */
-    public void createSubFolder(String parentPath, String folderName) {
-        final Folder folder = (Folder) session.getObjectByPath(parentPath);
-        final HashMap<String, Object> properties = new HashMap<String, Object>();
-        properties.put(PropertyIds.NAME, folderName);
-        properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:folder");
-        folder.createFolder(properties);
-    }
+	/**
+	 * Check if an object exists
+	 * @param objectPath path to the object to check
+	 * @return true if the object exists
+	 */
+	public Boolean checkIfObjectExists(String objectPath) {
+		try {
+			session.getObjectByPath(objectPath);
+			return true;
+		} catch (CmisObjectNotFoundException e) {
+			return false;
+		}
+	}
 
-    /**
-     * Delete a folder
-     * @param folderPath The path to the folder to delete
-     * @return the list of object ids which failed to be deleted
-     */
-    public List<String> deleteFolderByPath(String folderPath) {
-        Folder folder = (Folder) session.getObjectByPath(folderPath);
-        return folder.deleteTree(true, UnfileObject.DELETE, true);
-    }
+	/**
+	 * Create a folder
+	 * @param parentPath Path in which to create the folder
+	 * @param folderName the folder name
+	 */
+	public void createSubFolder(String parentPath, String folderName) {
+		final Folder folder = (Folder) session.getObjectByPath(parentPath);
+		final HashMap<String, Object> properties = new HashMap<String, Object>();
+		properties.put(PropertyIds.NAME, folderName);
+		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:folder");
+		folder.createFolder(properties);
+	}
 
-    /**
-     * List the content of a folder
-     * @param folderPath the folder to list
-     * @return the list of contents
-     */
-    public List<CmisObject> listFolder(String folderPath) {
-        Folder folder = (Folder) session.getObjectByPath(folderPath);
-        List<CmisObject> children = new ArrayList<CmisObject>();
-        for (CmisObject cmisObject : folder.getChildren()) {
-            children.add(cmisObject);
-        }
-        return children;
-    }
+	/**
+	 * Delete a folder
+	 * @param folderPath The path to the folder to delete
+	 * @return the list of object ids which failed to be deleted
+	 */
+	public List<String> deleteFolderByPath(String folderPath) {
+		Folder folder = (Folder) session.getObjectByPath(folderPath);
+		return folder.deleteTree(true, UnfileObject.DELETE, true);
+	}
 
-    public Document uploadNewDocument(String parentFolder, String documentName, byte[] documentContent, String mimeType) {
-        Folder parent = getFolderByPath(parentFolder);
+	/**
+	 * List the content of a folder
+	 * @param folderPath the folder to list
+	 * @return the list of contents
+	 */
+	public List<CmisObject> listFolder(String folderPath) {
+		Folder folder = (Folder) session.getObjectByPath(folderPath);
+		List<CmisObject> children = new ArrayList<CmisObject>();
+		for (CmisObject cmisObject : folder.getChildren()) {
+			children.add(cmisObject);
+		}
+		return children;
+	}
 
-        Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
-        properties.put(PropertyIds.NAME, documentName);
+	public Document uploadNewDocument(String parentFolder, String documentName, byte[] documentContent, String mimeType) {
+		Folder parent = getFolderByPath(parentFolder);
 
-        InputStream stream = new ByteArrayInputStream(documentContent);
-        ContentStream contentStream = new ContentStreamImpl(documentName, BigInteger.valueOf(documentContent.length), mimeType, stream);
+		Map<String, Object> properties = new HashMap<String, Object>();
+		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
+		properties.put(PropertyIds.NAME, documentName);
 
-        return parent.createDocument(properties, contentStream, VersioningState.MAJOR);
-    }
+		InputStream stream = new ByteArrayInputStream(documentContent);
+		ContentStream contentStream = new ContentStreamImpl(documentName, BigInteger.valueOf(documentContent.length), mimeType, stream);
 
-    public Document uploadNewVersionOfDocument(String remote_document, byte[] documentContent, String contentMimeType) {
-        Document document = (Document) session.getObjectByPath(remote_document);
+		return parent.createDocument(properties, contentStream, VersioningState.MAJOR);
+	}
 
-        InputStream stream = new ByteArrayInputStream(documentContent);
-        ContentStream contentStream = new ContentStreamImpl(document.getName(), BigInteger.valueOf(documentContent.length), contentMimeType, stream);
-        document.setContentStream(contentStream, true);
+	public Document uploadNewVersionOfDocument(String remote_document, byte[] documentContent, String contentMimeType) {
+		Document document = (Document) session.getObjectByPath(remote_document);
 
-        return document;
-    }
+		InputStream stream = new ByteArrayInputStream(documentContent);
+		ContentStream contentStream = new ContentStreamImpl(document.getName(), BigInteger.valueOf(documentContent.length), contentMimeType, stream);
+		document.setContentStream(contentStream, true);
 
-    public void deleteVersionOfDocument(String documentVersionId) {
-        Document document = (Document) session.getObject(documentVersionId);
-        document.delete(false);
-    }
+		return document;
+	}
 
-    public void deleteObjectByPath(String objectPath) {
-        session.getObjectByPath(objectPath).delete(true);
-    }
+	public void deleteVersionOfDocumentById(String documentVersionId) {
+		Document document = (Document) session.getObject(documentVersionId);
+		document.delete(false);
+	}
 
-    private String getRepositoryIdByName(final String username,
-                                           final String password, final String url, final String binding,
-                                           final String repositoryName) {
-        final List<Repository> repositories = getRepositories(username,
-                password, url, binding);
-        int index = 0;
+	public void deleteVersionOfDocumentByLabel(String documentPath, String versionLabel) {
+		Document document = (Document) session.getObjectByPath(documentPath);
+		for(Document version : document.getAllVersions()){
+			String label = version.getVersionLabel();
+			if(label != null && label.equals(versionLabel)){
+				version.delete(false);
+			}
+		}
+	}
 
-        while (index < repositories.size() && !repositories.get(index).getName().equals(repositoryName)) {
-            index++;
-        }
+	public void deleteObjectByPath(String objectPath) {
+		session.getObjectByPath(objectPath).delete(true);
+	}
 
-        if (index == repositories.size()) {
-            return repositories.get(0).getId();
-        } else {
-            return repositories.get(index).getId();
-        }
-    }
+	private String getRepositoryIdByName(final String username,
+			final String password, final String url, final String binding,
+			final String repositoryName) {
+		final List<Repository> repositories = getRepositories(username,
+				password, url, binding);
+		int index = 0;
 
-    private Map<String, String> fixParameters(String username, String password, String url, String bindingType) {
-        final Map<String, String> parameter = new HashMap<String, String>();
-        if ("atompub".equals(bindingType)) {
+		while (index < repositories.size() && !repositories.get(index).getName().equals(repositoryName)) {
+			index++;
+		}
 
-            parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
-        } else if ("webservices".equals(bindingType)) {
-            parameter.put(SessionParameter.BINDING_TYPE, BindingType.WEBSERVICES.value());
-            parameter.put(SessionParameter.WEBSERVICES_ACL_SERVICE, url
-                    + "/ACLService?wsdl");
-            parameter.put(SessionParameter.WEBSERVICES_DISCOVERY_SERVICE, url
-                    + "/DiscoveryService?wsdl");
-            parameter.put(SessionParameter.WEBSERVICES_MULTIFILING_SERVICE, url
-                    + "/MultiFilingService?wsdl");
-            parameter.put(SessionParameter.WEBSERVICES_NAVIGATION_SERVICE, url
-                    + "/NavigationService?wsdl");
-            parameter.put(SessionParameter.WEBSERVICES_OBJECT_SERVICE, url
-                    + "/ObjectService?wsdl");
-            parameter.put(SessionParameter.WEBSERVICES_POLICY_SERVICE, url
-                    + "/PolicyService?wsdl");
-            parameter.put(SessionParameter.WEBSERVICES_RELATIONSHIP_SERVICE,
-                    url + "/RelationshipService?wsdl");
-            parameter.put(SessionParameter.WEBSERVICES_REPOSITORY_SERVICE, url
-                    + "/RepositoryService?wsdl");
-            parameter.put(SessionParameter.WEBSERVICES_VERSIONING_SERVICE, url
-                    + "/VersioningService?wsdl");
-        }
+		if (index == repositories.size()) {
+			return repositories.get(0).getId();
+		} else {
+			return repositories.get(index).getId();
+		}
+	}
 
-        parameter.put(SessionParameter.ATOMPUB_URL, url);
-        parameter.put(SessionParameter.USER, username);
-        parameter.put(SessionParameter.PASSWORD, password);
+	private Map<String, String> fixParameters(String username, String password, String url, String bindingType) {
+		final Map<String, String> parameter = new HashMap<String, String>();
+		if ("atompub".equals(bindingType)) {
+
+			parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
+		} else if ("webservices".equals(bindingType)) {
+			parameter.put(SessionParameter.BINDING_TYPE, BindingType.WEBSERVICES.value());
+			parameter.put(SessionParameter.WEBSERVICES_ACL_SERVICE, url
+					+ "/ACLService?wsdl");
+			parameter.put(SessionParameter.WEBSERVICES_DISCOVERY_SERVICE, url
+					+ "/DiscoveryService?wsdl");
+			parameter.put(SessionParameter.WEBSERVICES_MULTIFILING_SERVICE, url
+					+ "/MultiFilingService?wsdl");
+			parameter.put(SessionParameter.WEBSERVICES_NAVIGATION_SERVICE, url
+					+ "/NavigationService?wsdl");
+			parameter.put(SessionParameter.WEBSERVICES_OBJECT_SERVICE, url
+					+ "/ObjectService?wsdl");
+			parameter.put(SessionParameter.WEBSERVICES_POLICY_SERVICE, url
+					+ "/PolicyService?wsdl");
+			parameter.put(SessionParameter.WEBSERVICES_RELATIONSHIP_SERVICE,
+					url + "/RelationshipService?wsdl");
+			parameter.put(SessionParameter.WEBSERVICES_REPOSITORY_SERVICE, url
+					+ "/RepositoryService?wsdl");
+			parameter.put(SessionParameter.WEBSERVICES_VERSIONING_SERVICE, url
+					+ "/VersioningService?wsdl");
+		}
+
+		parameter.put(SessionParameter.ATOMPUB_URL, url);
+		parameter.put(SessionParameter.USER, username);
+		parameter.put(SessionParameter.PASSWORD, password);
 
 
-        return parameter;
-    }
+		return parameter;
+	}
 
-    private void createSessionByRepositoryId(final String username,
-                                                final String password, final String url, final String bindingType,
-                                                final String repositoryId) {
-        final SessionFactory f = SessionFactoryImpl.newInstance();
-        final Map<String, String> parameter = fixParameters(username, password,
-                url, bindingType);
-        parameter.put(SessionParameter.REPOSITORY_ID, repositoryId);
-        session = f.createSession(parameter);
-    }
+	private Session createSessionByRepositoryId(final String username,
+			final String password, final String url, final String bindingType,
+			final String repositoryId) {
+		final SessionFactory f = SessionFactoryImpl.newInstance();
+		final Map<String, String> parameter = fixParameters(username, password,
+				url, bindingType);
+		parameter.put(SessionParameter.REPOSITORY_ID, repositoryId);
+		return f.createSession(parameter);
+	}
 
-    private void createSessionByRepositoryName(String username,String password, String url, String bindingType, String repositoryName) {
-        String repositoryId = getRepositoryIdByName(username, password, url, bindingType, repositoryName);
-        createSessionByRepositoryId(username, password, url, bindingType, repositoryId);
-    }
+	private Session createSessionByRepositoryName(String username,String password, String url, String bindingType, String repositoryName) {
+		String repositoryId = getRepositoryIdByName(username, password, url, bindingType, repositoryName);
+		return createSessionByRepositoryId(username, password, url, bindingType, repositoryId);
+	}
 }

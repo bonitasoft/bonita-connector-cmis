@@ -41,6 +41,12 @@ public class UploadNewDocument extends AbstractConnector {
     public static final String DESTINATION_NAME = "destinationName";
     private Map<String, Object> parameters;
     private ProcessAPI processApi;
+	private String username;
+	private String password;
+	private String url;
+	private String bindingType;
+	private String repository;
+	private CmisClient cmisClient;
 
     public UploadNewDocument() {
 
@@ -49,26 +55,39 @@ public class UploadNewDocument extends AbstractConnector {
     @Override
     public void setInputParameters(Map<String, Object> parameters) {
         this.parameters = parameters;
+        username = (String) parameters.get(USERNAME);
+        password = (String) parameters.get(PASSWORD);
+        url = (String) parameters.get(URL);
+        bindingType = (String) parameters.get(BINDING_TYPE);
+        repository = (String) parameters.get(REPOSITORY);
     }
 
+    @Override
+  	public void connect() throws ConnectorException {
+  		super.connect();
+  		cmisClient = new CmisClient(username, password, url, bindingType, repository);
+  	}
+
+  	@Override
+  	public void disconnect() throws ConnectorException {
+  		super.disconnect();
+  		if(cmisClient != null){
+  			cmisClient.clearSession();
+  			cmisClient = null;
+  		}
+  	}
+
+    
     @Override
     protected void executeBusinessLogic() throws ConnectorException {
         processApi = getAPIAccessor().getProcessAPI();
 
-        String username = (String) parameters.get(USERNAME);
-        String password = (String) parameters.get(PASSWORD);
-        String url = (String) parameters.get(URL);
-        String bindingType = (String) parameters.get(BINDING_TYPE);
-        String repository = (String) parameters.get(REPOSITORY);
         String document = (String) parameters.get(DOCUMENT);
         String folder_path = (String) parameters.get(FOLDER_PATH);
         String destinationName = (String) parameters.get(DESTINATION_NAME);
 
-        CmisClient cmisClient = new CmisClient(username, password, url, bindingType, repository);
-
         Document doc = getDocument(document);
         byte[] documentContent = getDocumentContent(doc);
-
         String documentId = cmisClient.uploadNewDocument(folder_path, destinationName, documentContent, doc.getContentMimeType()).getId();
 
         setOutputParameter("document_id", documentId);

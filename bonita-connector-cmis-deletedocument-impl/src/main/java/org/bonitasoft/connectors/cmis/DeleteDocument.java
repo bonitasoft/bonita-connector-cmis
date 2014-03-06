@@ -55,9 +55,27 @@ public class DeleteDocument extends AbstractConnector {
         repository = (String) parameters.get(REPOSITORY);
         documentPath = (String) parameters.get(DOCUMENT_PATH);
     }
+    
+    @Override
+	public void connect() throws ConnectorException {
+		super.connect();
+		cmisClient = new CmisClient(username, password, url, bindingType, repository);
+	}
+
+	@Override
+	public void disconnect() throws ConnectorException {
+		super.disconnect();
+		if(cmisClient != null){
+			cmisClient.clearSession();
+			cmisClient = null;
+		}
+	}
 
     @Override
     protected void executeBusinessLogic() throws ConnectorException {
+    	  if (!cmisClient.checkIfObjectExists(documentPath)) {
+              throw new ConnectorException("Document " + documentPath + "does not exist!");
+          }
         cmisClient.deleteObjectByPath(documentPath);
     }
 
@@ -67,13 +85,6 @@ public class DeleteDocument extends AbstractConnector {
         CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
         errors.addAll(cmisParametersValidator.validateCommonParameters());
         errors.addAll(cmisParametersValidator.validateSpecificParameters());
-
-        if (errors.isEmpty()) {
-            cmisClient = new CmisClient(username, password, url, bindingType, repository);
-            if (!cmisClient.checkIfObjectExists(documentPath)) {
-                errors.add("Document " + documentPath + "does not exist");
-            }
-        }
 
         if (!errors.isEmpty()) {
             throw new ConnectorValidationException(this, errors);

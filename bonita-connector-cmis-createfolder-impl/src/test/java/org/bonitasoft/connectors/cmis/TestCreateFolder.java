@@ -24,6 +24,11 @@ import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundExcept
 import org.bonitasoft.connectors.cmis.cmisclient.CmisClient;
 import org.junit.Test;
 
+/**
+ * 
+ * @author Romain Bioteau
+ *
+ */
 public class TestCreateFolder {
 
 	public static final String URL = "url";
@@ -72,7 +77,7 @@ public class TestCreateFolder {
 		try{
 			f = client.getFolderByPath(parentFolder+"/"+folderName);
 		}catch(CmisObjectNotFoundException e){
-			
+		
 		}
 		
 		if(f != null){
