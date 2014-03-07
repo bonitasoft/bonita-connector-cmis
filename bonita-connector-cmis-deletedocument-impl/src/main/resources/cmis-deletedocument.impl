@@ -6,7 +6,7 @@
     <description>Delete a document. Based on apache chemistry</description>
 	<implementationClassname>org.bonitasoft.connectors.cmis.DeleteDocument</implementationClassname>
 	<implementationId>cmis-deletedocument</implementationId>
-	<implementationVersion>1.0.0</implementationVersion>
+	<implementationVersion>$implementation.version$</implementationVersion>
 
 $Dependencies$
 

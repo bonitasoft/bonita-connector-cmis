@@ -6,7 +6,7 @@
     <description>Create a CMIS folder. Based on apache chemistry</description>
 	<implementationClassname>org.bonitasoft.connectors.cmis.CreateFolder</implementationClassname>
 	<implementationId>cmis-createfolder</implementationId>
-	<implementationVersion>1.0.0</implementationVersion>
+	<implementationVersion>$implementation.version$</implementationVersion>
 
 $Dependencies$
 

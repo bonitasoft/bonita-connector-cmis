@@ -6,7 +6,7 @@
     <description>Uplaod a new document. Based on apache chemistry</description>
 	<implementationClassname>org.bonitasoft.connectors.cmis.UploadNewDocument</implementationClassname>
 	<implementationId>cmis-uploadnewdocument</implementationId>
-	<implementationVersion>1.0.0</implementationVersion>
+	<implementationVersion>$implementation.version$</implementationVersion>
 
 $Dependencies$
 
