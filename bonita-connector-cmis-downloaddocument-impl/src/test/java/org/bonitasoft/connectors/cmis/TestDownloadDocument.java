@@ -59,7 +59,6 @@ public class TestDownloadDocument {
 		assertEquals("Invalid mime type","migration_note.txt",contentStream.getFileName());
 		InputStream stream = contentStream.getStream();
 		assertNotNull(stream);
-		assertTrue(stream.available() > 0);
 		stream.close();
 	}
 	
