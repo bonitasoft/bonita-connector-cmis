@@ -8,21 +8,22 @@
     </parent>
     
     <artifactId>bonita-connector-cmis-createfolder-impl</artifactId>
-
+	<version>1.0.0</version>
+	
     <properties>
-        <implementation.id>cmis-createfolder</implementation.id>
+        <definition.version>1.0.0</definition.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>bonita-connector-cmis-createfolder-def</artifactId>
-            <version>${project.version}</version>
+            <version>${definition.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>bonita-connector-cmis-common</artifactId>
-            <version>${cmis.common.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

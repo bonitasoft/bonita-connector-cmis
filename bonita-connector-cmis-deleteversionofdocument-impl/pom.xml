@@ -9,21 +9,23 @@
     </parent>
 
     <artifactId>bonita-connector-cmis-deleteversionofdocument-impl</artifactId>
+	<version>1.0.0</version>
+	
+   <properties>
+		<definition.version>1.0.0</definition.version>
+	</properties>
 
-    <properties>
-        <implementation.id>cmis-deleteversionofdocument</implementation.id>
-    </properties>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>bonita-connector-cmis-deleteversionofdocument-def</artifactId>
-            <version>${project.version}</version>
+            <version>${definition.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>bonita-connector-cmis-common</artifactId>
-            <version>${cmis.common.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

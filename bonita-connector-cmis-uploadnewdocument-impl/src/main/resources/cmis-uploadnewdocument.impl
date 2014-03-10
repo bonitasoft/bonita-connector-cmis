@@ -2,7 +2,7 @@
 <implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
 	
 	<definitionId>cmis-uploadnewdocument</definitionId>
-	<definitionVersion>1.0.0</definitionVersion>
+	<definitionVersion>$definition.version$</definitionVersion>
     <description>Uplaod a new document. Based on apache chemistry</description>
 	<implementationClassname>org.bonitasoft.connectors.cmis.UploadNewDocument</implementationClassname>
 	<implementationId>cmis-uploadnewdocument</implementationId>

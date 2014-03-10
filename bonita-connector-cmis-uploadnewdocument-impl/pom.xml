@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.bonitasoft.connectors</groupId>
-        <artifactId>bonita-connector-cmis</artifactId>
-        <version>1.0.0</version>
-    </parent>
+	<parent>
+		<groupId>org.bonitasoft.connectors</groupId>
+		<artifactId>bonita-connector-cmis</artifactId>
+		<version>1.0.0</version>
+	</parent>
 
-    <properties>
-        <implementation.id>cmis-uploadnewdocument</implementation.id>
-    </properties>
+	<properties>
+		<definition.version>1.0.0</definition.version>
+	</properties>
 
-    <artifactId>bonita-connector-cmis-uploadnewdocument-impl</artifactId>
+	<artifactId>bonita-connector-cmis-uploadnewdocument-impl</artifactId>
+	<version>1.0.0</version>
+	
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>bonita-connector-cmis-uploadnewdocument-def</artifactId>
+			<version>${definition.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>bonita-connector-cmis-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>bonita-connector-cmis-uploadnewdocument-def</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>bonita-connector-cmis-common</artifactId>
-            <version>${cmis.common.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-               
-            </plugin>
-           
-        </plugins>
-    </build>
+			</plugin>
+
+		</plugins>
+	</build>
 </project>

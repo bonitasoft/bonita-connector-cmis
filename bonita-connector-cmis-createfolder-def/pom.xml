@@ -9,6 +9,6 @@
     
 
     <artifactId>bonita-connector-cmis-createfolder-def</artifactId>
-
+  	<version>1.0.0</version>
 
 </project>

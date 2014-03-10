@@ -9,6 +9,6 @@
     </parent>
 
     <artifactId>bonita-connector-cmis-deleteversionofdocument-def</artifactId>
-
+	<version>1.0.0</version>
 
 </project>
