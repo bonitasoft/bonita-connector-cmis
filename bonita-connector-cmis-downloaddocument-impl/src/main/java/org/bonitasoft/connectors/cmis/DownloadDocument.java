@@ -18,98 +18,61 @@
 package org.bonitasoft.connectors.cmis;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
-import org.bonitasoft.connectors.cmis.cmisclient.CMISParametersValidator;
-import org.bonitasoft.connectors.cmis.cmisclient.CmisClient;
+import org.bonitasoft.connectors.cmis.cmisclient.AbstractCmisClient;
 import org.bonitasoft.engine.bpm.document.DocumentValue;
-import org.bonitasoft.engine.connector.AbstractConnector;
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 import org.bonitasoft.engine.io.IOUtil;
 
-public class DownloadDocument extends AbstractConnector {
-	public static final String USERNAME = "username";
-	public static final String PASSWORD = "password";
-	public static final String URL = "url";
-	public static final String BINDING_TYPE = "binding_type";
-	public static final String REPOSITORY = "repository";
-	public static final String DOCUMENT = "documentOuput";
-	public static final String REMOTE_DOCUMENT_PATH = "remote_document_path";
+public class DownloadDocument extends AbstractCMISConnector {
 
-	private Map<String, Object> parameters;
-	private String username;
-	private String password;
-	private String url;
-	private String bindingType;
-	private String repository;
-	private CmisClient cmisClient;
+    public static final String DOCUMENT = "documentOuput";
+    public static final String REMOTE_DOCUMENT_PATH = "remote_document_path";
 
-	public DownloadDocument() {
-
-	}
-
-	@Override
-	public void setInputParameters(Map<String, Object> parameters) {
-		this.parameters = parameters;
-		username = (String) parameters.get(USERNAME);
-		password = (String) parameters.get(PASSWORD);
-		url = (String) parameters.get(URL);
-		bindingType = (String) parameters.get(BINDING_TYPE);
-		repository = (String) parameters.get(REPOSITORY);
-	}
-
-	@Override
-	public void connect() throws ConnectorException {
-		super.connect();
-		cmisClient = new CmisClient(username, password, url, bindingType, repository);
-	}
-
-	@Override
-	public void disconnect() throws ConnectorException {
-		super.disconnect();
-		if(cmisClient != null){
-			cmisClient.clearSession();
-			cmisClient = null;
-		}
-	}
+    private String remote_path;
 
 
-	@Override
-	protected void executeBusinessLogic() throws ConnectorException {
-		String remote_path = (String) parameters.get(REMOTE_DOCUMENT_PATH);
-		if(!cmisClient.checkIfObjectExists(remote_path)){
-			throw new ConnectorException("Document "+remote_path+" does not exists!");
-		}
-		Document cmisDocument =(Document) cmisClient.getObjectByPath(remote_path);
-
-		ContentStream contentStream = cmisDocument.getContentStream();
-		DocumentValue docValue;
-		try {
-			docValue = new DocumentValue(IOUtil.getAllContentFrom(contentStream.getStream()),contentStream.getMimeType(), contentStream.getFileName());
-		} catch (IOException e) {
-			throw new ConnectorException(e);
-		}
-		setOutputParameter("documentOuput", docValue);
-	}
+    @Override
+    public void setInputParameters(final Map<String, Object> parameters) {
+        super.setInputParameters(parameters);
+        remote_path = (String) parameters.get(REMOTE_DOCUMENT_PATH);
+    }
 
 
-	@Override
-	public void validateInputParameters() throws ConnectorValidationException {
-		List<String> errors = new ArrayList<String>();
-		CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
-		errors.addAll(cmisParametersValidator.validateCommonParameters());
-		try{
-			getInputParameter(REMOTE_DOCUMENT_PATH);
-		}catch(ClassCastException ex){
-			throw new ConnectorValidationException("Invalid type for input "+REMOTE_DOCUMENT_PATH);
-		}
-		if (!errors.isEmpty()) {
-			throw new ConnectorValidationException(this, errors);
-		}
-	}
+
+    //Need ObjectService binding
+    @Override
+    protected void executeBusinessLogic() throws ConnectorException {
+        final AbstractCmisClient cmisClient = getClient();
+        if (cmisClient == null) {
+            throw new ConnectorException("CMIS DownloadDocument connector is not connected properly.");
+        }
+        if(!cmisClient.checkIfObjectExists(remote_path)){
+            throw new ConnectorException("Document "+remote_path+" does not exists!");
+        }
+        final Document cmisDocument =(Document) cmisClient.getObjectByPath(remote_path);
+        final ContentStream contentStream = cmisDocument.getContentStream();
+        DocumentValue docValue;
+        try {
+            docValue = new DocumentValue(IOUtil.getAllContentFrom(contentStream.getStream()),contentStream.getMimeType(), contentStream.getFileName());
+        } catch (final IOException e) {
+            throw new ConnectorException(e);
+        }
+        setOutputParameter(DOCUMENT, docValue);
+    }
+
+
+    @Override
+    public void validateInputParameters() throws ConnectorValidationException {
+        super.validateInputParameters();
+        try{
+            getInputParameter(REMOTE_DOCUMENT_PATH);
+        }catch(final ClassCastException ex){
+            throw new ConnectorValidationException("Invalid type for input "+REMOTE_DOCUMENT_PATH);
+        }
+    }
 }

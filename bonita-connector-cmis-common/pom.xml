@@ -9,12 +9,13 @@
 	</parent>
 
 	<artifactId>bonita-connector-cmis-common</artifactId>
-	
+	<version>1.1.0</version>
+    
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.chemistry.opencmis</groupId>
 			<artifactId>chemistry-opencmis-client-impl</artifactId>
-			<version>0.10.0</version>
+			<version>0.11.0</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>saaj-impl</artifactId>
@@ -61,12 +62,6 @@
 					<groupId>junit</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.6.6</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

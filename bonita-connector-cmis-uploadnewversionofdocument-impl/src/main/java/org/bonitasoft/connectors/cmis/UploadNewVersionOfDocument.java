@@ -17,113 +17,68 @@
 
 package org.bonitasoft.connectors.cmis;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import org.bonitasoft.connectors.cmis.cmisclient.CMISParametersValidator;
-import org.bonitasoft.connectors.cmis.cmisclient.CmisClient;
+import org.bonitasoft.connectors.cmis.cmisclient.AbstractCmisClient;
 import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.bpm.document.Document;
 import org.bonitasoft.engine.bpm.document.DocumentNotFoundException;
-import org.bonitasoft.engine.connector.AbstractConnector;
 import org.bonitasoft.engine.connector.ConnectorException;
-import org.bonitasoft.engine.connector.ConnectorValidationException;
 
-public class UploadNewVersionOfDocument extends AbstractConnector {
-	public static final String USERNAME = "username";
-	public static final String PASSWORD = "password";
-	public static final String URL = "url";
-	public static final String BINDING_TYPE = "binding_type";
-	public static final String REPOSITORY = "repository";
-	public static final String DOCUMENT = "document";
-	public static final String REMOTE_DOCUMENT = "remote_document";
-	private Map<String, Object> parameters;
-	private ProcessAPI processApi;
-	private CmisClient cmisClient;
-	private String username;
-	private String password;
-	private String url;
-	private String bindingType;
-	private String repository;
-	private String document;
-	private String remote_document;
+public class UploadNewVersionOfDocument extends AbstractCMISConnector {
 
-	public UploadNewVersionOfDocument() {
+    public static final String DOCUMENT = "document";
 
-	}
+    public static final String REMOTE_DOCUMENT = "remote_document";
 
-	@Override
-	public void connect() throws ConnectorException {
-		super.connect();
-		cmisClient = new CmisClient(username, password, url, bindingType, repository);
-	}
+    private ProcessAPI processApi;
 
-	@Override
-	public void disconnect() throws ConnectorException {
-		super.disconnect();
-		if(cmisClient != null){
-			cmisClient.clearSession();
-			cmisClient = null;
-		}
-	}
+    private String document;
 
-	@Override
-	public void setInputParameters(Map<String, Object> parameters) {
-		this.parameters = parameters;
-		username = (String) parameters.get(USERNAME);
-		password = (String) parameters.get(PASSWORD);
-		url = (String) parameters.get(URL);
-		bindingType = (String) parameters.get(BINDING_TYPE);
-		repository = (String) parameters.get(REPOSITORY);
-		document = (String) parameters.get(DOCUMENT);
-		remote_document = (String) parameters.get(REMOTE_DOCUMENT);
-	}
+    private String remote_document;
+
+    @Override
+    public void setInputParameters(final Map<String, Object> parameters) {
+        super.setInputParameters(parameters);
+        document = (String) parameters.get(DOCUMENT);
+        remote_document = (String) parameters.get(REMOTE_DOCUMENT);
+    }
 
 
-	@Override
-	protected void executeBusinessLogic() throws ConnectorException {
-		
-		if (!cmisClient.checkIfObjectExists(remote_document)) {
-			throw new ConnectorException("Remote document "+remote_document+" doesn't exists !");
-		}
-		
-		processApi = getAPIAccessor().getProcessAPI();
-		Document doc = getDocument(document);
-		byte[] documentContent = getDocumentContent(doc);
-		String documentId = cmisClient.uploadNewVersionOfDocument(remote_document, documentContent, doc.getContentMimeType()).getId();
-		setOutputParameter("document_id", documentId);
-	}
+    @Override
+    protected void executeBusinessLogic() throws ConnectorException {
+        final AbstractCmisClient cmisClient = getClient();
+        if (cmisClient == null) {
+            throw new ConnectorException("CMIS UploadNewVersionOfDocument connector is not connected properly.");
+        }
+        if (!cmisClient.checkIfObjectExists(remote_document)) {
+            throw new ConnectorException("Remote document "+remote_document+" doesn't exists !");
+        }
 
-	private byte[] getDocumentContent(Document doc) throws ConnectorException {
-		byte[] documentContent;
-		try {
-			documentContent = processApi.getDocumentContent(doc.getContentStorageId());
-		} catch (DocumentNotFoundException e) {
-			throw new ConnectorException("Failed to retrieve document content for " + doc.getName(), e);
-		}
-		return documentContent;
-	}
+        processApi = getAPIAccessor().getProcessAPI();
+        final Document doc = getDocument(document);
+        final byte[] documentContent = getDocumentContent(doc);
+        final String documentId = cmisClient.uploadNewVersionOfDocument(remote_document, documentContent, doc.getContentMimeType()).getId();
+        setOutputParameter("document_id", documentId);
+    }
 
-	private Document getDocument(String document) throws ConnectorException {
-		Document doc;
-		try {
-			doc = processApi.getLastDocument(getExecutionContext().getProcessInstanceId(), document);
-		} catch (DocumentNotFoundException e) {
-			throw new ConnectorException("Failed to retrieve document "+document, e);
-		}
-		return doc;
-	}
+    private byte[] getDocumentContent(final Document doc) throws ConnectorException {
+        byte[] documentContent;
+        try {
+            documentContent = processApi.getDocumentContent(doc.getContentStorageId());
+        } catch (final DocumentNotFoundException e) {
+            throw new ConnectorException("Failed to retrieve document content for " + doc.getName(), e);
+        }
+        return documentContent;
+    }
 
-	@Override
-	public void validateInputParameters() throws ConnectorValidationException {
-		List<String> errors = new ArrayList<String>();
-		CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
-		errors.addAll(cmisParametersValidator.validateCommonParameters());
-		errors.addAll(cmisParametersValidator.validateSpecificParameters());
-
-		if (!errors.isEmpty()) {
-			throw new ConnectorValidationException(this, errors);
-		}
-	}
+    private Document getDocument(final String document) throws ConnectorException {
+        Document doc;
+        try {
+            doc = processApi.getLastDocument(getExecutionContext().getProcessInstanceId(), document);
+        } catch (final DocumentNotFoundException e) {
+            throw new ConnectorException("Failed to retrieve document "+document, e);
+        }
+        return doc;
+    }
 }

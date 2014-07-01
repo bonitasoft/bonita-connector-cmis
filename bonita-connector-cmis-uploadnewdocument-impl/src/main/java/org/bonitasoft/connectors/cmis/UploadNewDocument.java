@@ -17,111 +17,67 @@
 
 package org.bonitasoft.connectors.cmis;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import org.bonitasoft.connectors.cmis.cmisclient.CMISParametersValidator;
-import org.bonitasoft.connectors.cmis.cmisclient.CmisClient;
+import org.bonitasoft.connectors.cmis.cmisclient.AbstractCmisClient;
 import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.bpm.document.Document;
 import org.bonitasoft.engine.bpm.document.DocumentNotFoundException;
-import org.bonitasoft.engine.connector.AbstractConnector;
 import org.bonitasoft.engine.connector.ConnectorException;
-import org.bonitasoft.engine.connector.ConnectorValidationException;
 
-public class UploadNewDocument extends AbstractConnector {
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String URL = "url";
-    public static final String BINDING_TYPE = "binding_type";
-    public static final String REPOSITORY = "repository";
+public class UploadNewDocument extends AbstractCMISConnector {
+
     public static final String DOCUMENT = "document";
     public static final String FOLDER_PATH = "folder_path";
     public static final String DESTINATION_NAME = "destinationName";
-    private Map<String, Object> parameters;
+
     private ProcessAPI processApi;
-	private String username;
-	private String password;
-	private String url;
-	private String bindingType;
-	private String repository;
-	private CmisClient cmisClient;
+    private String document;
+    private String folder_path;
+    private String destinationName;
 
-    public UploadNewDocument() {
-
-    }
 
     @Override
-    public void setInputParameters(Map<String, Object> parameters) {
-        this.parameters = parameters;
-        username = (String) parameters.get(USERNAME);
-        password = (String) parameters.get(PASSWORD);
-        url = (String) parameters.get(URL);
-        bindingType = (String) parameters.get(BINDING_TYPE);
-        repository = (String) parameters.get(REPOSITORY);
+    public void setInputParameters(final Map<String, Object> parameters) {
+        super.setInputParameters(parameters);
+        document = (String) parameters.get(DOCUMENT);
+        folder_path = (String) parameters.get(FOLDER_PATH);
+        destinationName = (String) parameters.get(DESTINATION_NAME);
     }
 
-    @Override
-  	public void connect() throws ConnectorException {
-  		super.connect();
-  		cmisClient = new CmisClient(username, password, url, bindingType, repository);
-  	}
 
-  	@Override
-  	public void disconnect() throws ConnectorException {
-  		super.disconnect();
-  		if(cmisClient != null){
-  			cmisClient.clearSession();
-  			cmisClient = null;
-  		}
-  	}
-
-    
     @Override
     protected void executeBusinessLogic() throws ConnectorException {
         processApi = getAPIAccessor().getProcessAPI();
-
-        String document = (String) parameters.get(DOCUMENT);
-        String folder_path = (String) parameters.get(FOLDER_PATH);
-        String destinationName = (String) parameters.get(DESTINATION_NAME);
-
-        Document doc = getDocument(document);
-        byte[] documentContent = getDocumentContent(doc);
-        String documentId = cmisClient.uploadNewDocument(folder_path, destinationName, documentContent, doc.getContentMimeType()).getId();
+        final AbstractCmisClient cmisClient = getClient();
+        if (cmisClient == null) {
+            throw new ConnectorException("CMIS UploadNewDocument connector is not connected properly.");
+        }
+        final Document doc = getDocument(document);
+        final byte[] documentContent = getDocumentContent(doc);
+        final String documentId = cmisClient.uploadNewDocument(folder_path, destinationName, documentContent, doc.getContentMimeType()).getId();
 
         setOutputParameter("document_id", documentId);
     }
 
-    private byte[] getDocumentContent(Document doc) throws ConnectorException {
+    private byte[] getDocumentContent(final Document doc) throws ConnectorException {
         byte[] documentContent;
         try {
             documentContent = processApi.getDocumentContent(doc.getContentStorageId());
-        } catch (DocumentNotFoundException e) {
+        } catch (final DocumentNotFoundException e) {
             throw new ConnectorException("Failed to retrieve document content for " + doc.getName(), e);
         }
         return documentContent;
     }
 
-    private Document getDocument(String document) throws ConnectorException {
+    private Document getDocument(final String document) throws ConnectorException {
         Document doc;
         try {
             doc = processApi.getLastDocument(getExecutionContext().getProcessInstanceId(), document);
-        } catch (DocumentNotFoundException e) {
+        } catch (final DocumentNotFoundException e) {
             throw new ConnectorException("Failed to retrieve document "+document, e);
         }
         return doc;
     }
 
-    @Override
-    public void validateInputParameters() throws ConnectorValidationException {
-        List<String> errors = new ArrayList<String>();
-        CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
-        errors.addAll(cmisParametersValidator.validateCommonParameters());
-        errors.addAll(cmisParametersValidator.validateSpecificParameters());
-
-        if (!errors.isEmpty()) {
-            throw new ConnectorValidationException(this, errors);
-        }
-    }
 }

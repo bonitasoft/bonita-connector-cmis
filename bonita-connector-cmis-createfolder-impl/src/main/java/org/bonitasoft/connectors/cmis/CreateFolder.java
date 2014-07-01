@@ -17,104 +17,38 @@
 
 package org.bonitasoft.connectors.cmis;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bonitasoft.connectors.cmis.cmisclient.CMISParametersValidator;
-import org.bonitasoft.connectors.cmis.cmisclient.CmisClient;
-import org.bonitasoft.engine.connector.AbstractConnector;
+import org.bonitasoft.connectors.cmis.cmisclient.AbstractCmisClient;
 import org.bonitasoft.engine.connector.ConnectorException;
-import org.bonitasoft.engine.connector.ConnectorValidationException;
 
-public class CreateFolder extends AbstractConnector {
+public class CreateFolder extends AbstractCMISConnector {
 
-	public static final String URL = "url";
+    public static final String PARENT_FOLDER_PATH = "folder_path";
 
-	public static final String BINDING = "binding_type";
+    public static final String FOLDER_NAME = "subfolder_name";
 
-	public static final String USERNAME = "username";
+    private String parentFolderPath;
 
-	public static final String PASSWORD = "password";
+    private String folderName;
 
-	public static final String REPOSITORY = "repository";
+    @Override
+    public void executeBusinessLogic() throws ConnectorException {
+        final AbstractCmisClient cmisClient = getClient();
+        if(cmisClient != null){
+            cmisClient.createSubFolder(parentFolderPath, folderName);
+        }
+    }
 
-	public static final String PARENT_FOLDER_PATH = "folder_path";
-
-	public static final String FOLDER_NAME = "subfolder_name";
-
-	private String url;
-
-	private String bindingType;
-
-	private String username;
-
-	private String password;
-
-	private String parentFolderPath;
-
-	private String folderName;
-
-	private String repository;
-
-	private Map<String, Object> parameters;
-
-	private CmisClient cmisClient;
-
-	@Override
-	public void connect() throws ConnectorException {
-		super.connect();
-		cmisClient = new CmisClient(username, password, url, bindingType, repository);
-	}
-
-	@Override
-	public void disconnect() throws ConnectorException {
-		super.disconnect();
-		if(cmisClient != null){
-			cmisClient.clearSession();
-			cmisClient = null;
-		}
-	}
-
-	@Override
-	public void executeBusinessLogic() throws ConnectorException {
-		if(cmisClient != null){
-			cmisClient.createSubFolder(parentFolderPath, folderName);
-		}
-	}
-
-	@Override
-	public void validateInputParameters() throws ConnectorValidationException {
-		List<String> messages = new ArrayList<String>(0);
-
-		CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
-		messages.addAll(cmisParametersValidator.validateCommonParameters());
-		messages.addAll(cmisParametersValidator.validateSpecificParameters());
-
-		if (!messages.isEmpty()) {
-			throw new ConnectorValidationException(this, messages);
-		}
-	}
-
-	@Override
-	public void setInputParameters(Map<String, Object> parameters) {
-		this.parameters = parameters;
-		Logger logger = Logger.getLogger(this.getClass().toString());
-		url = (String) parameters.get(URL);
-		logger.log(Level.ALL, url);
-		bindingType = (String) parameters.get(BINDING);
-		logger.log(Level.ALL, BINDING);
-		username = (String) parameters.get(USERNAME);
-		logger.log(Level.ALL, USERNAME);
-		password = (String) parameters.get(PASSWORD);
-		logger.log(Level.ALL, PASSWORD);
-		repository = (String) parameters.get(REPOSITORY);
-		logger.log(Level.ALL, REPOSITORY);
-		parentFolderPath = (String) parameters.get(PARENT_FOLDER_PATH);
-		logger.log(Level.ALL, PARENT_FOLDER_PATH);
-		folderName = (String) parameters.get(FOLDER_NAME);
-		logger.log(Level.ALL, FOLDER_NAME);
-	}
+    @Override
+    public void setInputParameters(final Map<String, Object> parameters) {
+        super.setInputParameters(parameters);
+        final Logger logger = Logger.getLogger(this.getClass().toString());
+        parentFolderPath = (String) parameters.get(PARENT_FOLDER_PATH);
+        logger.log(Level.ALL, PARENT_FOLDER_PATH);
+        folderName = (String) parameters.get(FOLDER_NAME);
+        logger.log(Level.ALL, FOLDER_NAME);
+    }
 }
