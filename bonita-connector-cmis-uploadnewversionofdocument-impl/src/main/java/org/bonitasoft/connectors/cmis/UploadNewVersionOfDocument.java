@@ -27,6 +27,8 @@ import org.bonitasoft.engine.connector.ConnectorException;
 
 public class UploadNewVersionOfDocument extends AbstractCMISConnector {
 
+    public static final String DOCUMENT_ID_OUTPUT = "document_id";
+
     public static final String DOCUMENT = "document";
 
     public static final String REMOTE_DOCUMENT = "remote_document";
@@ -59,7 +61,7 @@ public class UploadNewVersionOfDocument extends AbstractCMISConnector {
         final Document doc = getDocument(document);
         final byte[] documentContent = getDocumentContent(doc);
         final String documentId = cmisClient.uploadNewVersionOfDocument(remote_document, documentContent, doc.getContentMimeType()).getId();
-        setOutputParameter("document_id", documentId);
+        setOutputParameter(DOCUMENT_ID_OUTPUT, documentId);
     }
 
     private byte[] getDocumentContent(final Document doc) throws ConnectorException {

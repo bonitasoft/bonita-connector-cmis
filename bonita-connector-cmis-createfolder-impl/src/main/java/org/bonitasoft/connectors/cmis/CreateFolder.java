@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.chemistry.opencmis.client.api.Folder;
 import org.bonitasoft.connectors.cmis.cmisclient.AbstractCmisClient;
 import org.bonitasoft.engine.connector.ConnectorException;
 
@@ -30,6 +31,8 @@ public class CreateFolder extends AbstractCMISConnector {
 
     public static final String FOLDER_NAME = "subfolder_name";
 
+    public static final String FOLDER_ID_OUTPUT = "folder_id";
+
     private String parentFolderPath;
 
     private String folderName;
@@ -37,8 +40,17 @@ public class CreateFolder extends AbstractCMISConnector {
     @Override
     public void executeBusinessLogic() throws ConnectorException {
         final AbstractCmisClient cmisClient = getClient();
-        if(cmisClient != null){
-            cmisClient.createSubFolder(parentFolderPath, folderName);
+        try {
+            if (cmisClient != null) {
+                final Folder folder = cmisClient.createSubFolder(parentFolderPath, folderName);
+                if (folder != null) {
+                    setOutputParameter(FOLDER_ID_OUTPUT, folder.getId());
+                }
+            }
+        } finally {
+            if (!getOutputParameters().containsKey("folder_id")) {
+                setOutputParameter(FOLDER_ID_OUTPUT, null);
+            }
         }
     }
 

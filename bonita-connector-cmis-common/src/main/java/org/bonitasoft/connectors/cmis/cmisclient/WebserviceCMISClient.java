@@ -50,47 +50,25 @@ public class WebserviceCMISClient extends AbstractCmisClient {
         final Map<String, String> parameters = super.configure();
         parameters.putAll(serviceBinding);
         parameters.put(SessionParameter.BINDING_TYPE, BindingType.WEBSERVICES.value());
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_ACL_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_ACL_SERVICE, "");
-        }
 
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_ACL_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_ACL_SERVICE, "");
-        }
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_ACL_SERVICE);
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_DISCOVERY_SERVICE);
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_MULTIFILING_SERVICE);
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_NAVIGATION_SERVICE);
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_OBJECT_SERVICE);
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_POLICY_SERVICE);
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_RELATIONSHIP_SERVICE);
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_REPOSITORY_SERVICE);
+        putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_VERSIONING_SERVICE);
 
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_DISCOVERY_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_DISCOVERY_SERVICE, "");
-        }
-
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_MULTIFILING_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_MULTIFILING_SERVICE, "");
-        }
-
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_NAVIGATION_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_NAVIGATION_SERVICE, "");
-        }
-
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_OBJECT_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_OBJECT_SERVICE, "");
-        }
-
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_POLICY_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_POLICY_SERVICE, "");
-        }
-
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_RELATIONSHIP_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_RELATIONSHIP_SERVICE, "");
-        }
-
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_REPOSITORY_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_REPOSITORY_SERVICE, "");
-        }
-
-        if (!parameters.containsKey(SessionParameter.WEBSERVICES_VERSIONING_SERVICE)) {
-            parameters.put(SessionParameter.WEBSERVICES_VERSIONING_SERVICE, "");
-        }
         return parameters;
     }
 
+
+    private static void putEmptyParameterIfNotExists(final Map<String, String> parameters, final String paramKey) {
+        if (!parameters.containsKey(paramKey)) {
+            parameters.put(paramKey, "");
+        }
+    }
 
 }

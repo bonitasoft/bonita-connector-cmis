@@ -24,6 +24,8 @@ import org.bonitasoft.engine.connector.ConnectorException;
 
 public class DeleteDocument extends AbstractCMISConnector {
 
+    public static final String IS_DOCUMENT_DELETED_OUTPUT = "isDocumentDeleted";
+
     public static final String DOCUMENT_PATH = "document_path";
 
     private String documentPath;
@@ -42,11 +44,13 @@ public class DeleteDocument extends AbstractCMISConnector {
         if (cmisClient == null) {
             throw new ConnectorException("CMIS DeleteDocument connector is not connected properly.");
         }
-        if (!cmisClient.checkIfObjectExists(documentPath)) {
-            throw new ConnectorException("Document " + documentPath + "does not exist!");
+        try {
+            if (!cmisClient.checkIfObjectExists(documentPath)) {
+                throw new ConnectorException("Document " + documentPath + "does not exist!");
+            }
+            cmisClient.deleteObjectByPath(documentPath);
+        } finally {
+            setOutputParameter(IS_DOCUMENT_DELETED_OUTPUT, !cmisClient.checkIfObjectExists(documentPath));
         }
-        cmisClient.deleteObjectByPath(documentPath);
     }
-
-
 }

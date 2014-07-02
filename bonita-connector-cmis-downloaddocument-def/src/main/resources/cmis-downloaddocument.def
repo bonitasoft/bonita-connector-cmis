@@ -8,7 +8,7 @@
 
     <input name="username" type="java.lang.String" mandatory="true" defaultValue="admin" />
     <input name="password" type="java.lang.String" mandatory="true" defaultValue="password" />
-    <input name="url" type="java.lang.String" mandatory="true" defaultValue="http://YOUR_DMS/cmis" />
+    <input name="url" type="java.lang.String" mandatory="false" defaultValue="http://YOUR_DMS/cmis" />
     <input name="repository" type="java.lang.String" mandatory="true" defaultValue="Main Repository"/>
     <input name="binding_type" type="java.lang.String" mandatory="true" defaultValue="webservices" />
     <input name="remote_document_path" type="java.lang.String" mandatory="true" defaultValue="/My Company/subfolder/document.txt" />
@@ -27,10 +27,10 @@
             <items>atompub</items>
             <items>webservices</items>
         </widget>
-        <widget id="atompubConfigGroup" xsi:type="definition:Group" optional="true">
+        <widget id="atompubConfigGroup" xsi:type="definition:Group" optional="false">
         	<widget id="url" inputName="url" xsi:type="definition:Text"/>
         </widget>
-        <widget id="wsServiceConfigGroup" xsi:type="definition:Group" optional="true">
+        <widget id="wsServiceConfigGroup" xsi:type="definition:Group" optional="false">
         	 <widget id="wsRepositoryServiceUrl" inputName="wsRepositoryServiceUrl" xsi:type="definition:Text" />
         	 <widget id="wsRepositoryServiceEndpointUrl" inputName="wsRepositoryServiceEndpointUrl" xsi:type="definition:Text" />
         	 <widget id="wsObjectServiceUrl" inputName="wsObjectServiceUrl" xsi:type="definition:Text" />

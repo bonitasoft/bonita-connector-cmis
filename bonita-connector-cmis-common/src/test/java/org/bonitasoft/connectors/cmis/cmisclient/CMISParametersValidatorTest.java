@@ -15,9 +15,8 @@ import org.junit.Test;
 public class CMISParametersValidatorTest {
     @Test
     public void testValidateCommonParameters() throws Exception {
-        CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(Collections.<String, Object>emptyMap());
+        final CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(Collections.<String, Object>emptyMap());
         assertThat(cmisParametersValidator.validateCommonParameters(), hasItems(
-                "URL is not set",
                 "Binding type is not set",
                 "Repository must be set",
                 "Username is not set",
@@ -27,10 +26,10 @@ public class CMISParametersValidatorTest {
 
     @Test
     public void testBinding() throws Exception {
-        Map<String,Object> parameters = new HashMap<String, Object>();
+        final Map<String,Object> parameters = new HashMap<String, Object>();
         parameters.put("binding_type", "b");
 
-        CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
+        final CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
         assertThat(cmisParametersValidator.validateCommonParameters(), hasItem(
                 "Binding type should be either atompub or webservices"
         ));
@@ -38,7 +37,7 @@ public class CMISParametersValidatorTest {
 
     @Test
     public void testValidateSpecificParameters() throws Exception {
-        Map<String,Object> parameters = new HashMap<String, Object>();
+        final Map<String,Object> parameters = new HashMap<String, Object>();
         parameters.put("subfolder_name", null);
         parameters.put("folder_path", null);
         parameters.put("document_path", null);
@@ -48,7 +47,7 @@ public class CMISParametersValidatorTest {
         parameters.put("destinationName", null);
         parameters.put("remote_document", null);
 
-        CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
+        final CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
 
         assertThat(cmisParametersValidator.validateSpecificParameters(), hasItems(
                 "Document must be set",
@@ -65,8 +64,8 @@ public class CMISParametersValidatorTest {
 
     @Test
     public void testNoSpecificParameters() throws Exception {
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
+        final Map<String, Object> parameters = new HashMap<String, Object>();
+        final CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
         assertThat(cmisParametersValidator.validateSpecificParameters().size(), is(0));
     }
 }

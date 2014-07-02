@@ -26,6 +26,8 @@ public class DeleteFolder extends AbstractCMISConnector {
 
     public static final String FOLDER_PATH = "folder_path";
 
+    public static final String IS_FOLDER_DELETED_OUTPUT = "isFolderDeleted";
+
     private String folderPath;
 
     @Override
@@ -41,9 +43,13 @@ public class DeleteFolder extends AbstractCMISConnector {
             throw new ConnectorException("CMIS DeleteFolder connector is not connected properly.");
         }
         if (!cmisClient.checkIfObjectExists(folderPath)) {
-            throw new ConnectorException("Folder "+folderPath+" does not exist!");
+            throw new ConnectorException("Folder " + folderPath + " does not exist!");
         }
-        cmisClient.deleteFolderByPath(folderPath);
+        try {
+            cmisClient.deleteFolderByPath(folderPath);
+        } finally {
+            setOutputParameter(IS_FOLDER_DELETED_OUTPUT, !cmisClient.checkIfObjectExists(folderPath));
+        }
     }
 
 }

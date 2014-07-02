@@ -139,12 +139,12 @@ public abstract class AbstractCmisClient {
      * @param parentPath Path in which to create the folder
      * @param folderName the folder name
      */
-    public void createSubFolder(final String parentPath, final String folderName) {
+    public Folder createSubFolder(final String parentPath, final String folderName) {
         final Folder folder = (Folder) session.getObjectByPath(parentPath);
         final HashMap<String, Object> properties = new HashMap<String, Object>();
         properties.put(PropertyIds.NAME, folderName);
         properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:folder");
-        folder.createFolder(properties);
+        return folder.createFolder(properties);
     }
 
     /**
@@ -222,10 +222,10 @@ public abstract class AbstractCmisClient {
 
     public void deleteVersionOfDocumentByLabel(final String documentPath, final String versionLabel) {
         final Document document = (Document) session.getObjectByPath(documentPath);
-        for(final Document version : document.getAllVersions()){
-            final String label = version.getVersionLabel();
+        for(final Document versionedDocument : document.getAllVersions()){
+            final String label = versionedDocument.getVersionLabel();
             if(label != null && label.equals(versionLabel)){
-                version.delete(false);
+                versionedDocument.delete(false);
             }
         }
     }
