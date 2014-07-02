@@ -27,6 +27,7 @@ import org.bonitasoft.engine.connector.ConnectorException;
 
 public class UploadNewDocument extends AbstractCMISConnector {
 
+    private static final String DOCUMENT_ID_OUTPUT = "document_id";
     public static final String DOCUMENT = "document";
     public static final String FOLDER_PATH = "folder_path";
     public static final String DESTINATION_NAME = "destinationName";
@@ -57,7 +58,7 @@ public class UploadNewDocument extends AbstractCMISConnector {
         final byte[] documentContent = getDocumentContent(doc);
         final String documentId = cmisClient.uploadNewDocument(folder_path, destinationName, documentContent, doc.getContentMimeType()).getId();
 
-        setOutputParameter("document_id", documentId);
+        setOutputParameter(DOCUMENT_ID_OUTPUT, documentId);
     }
 
     private byte[] getDocumentContent(final Document doc) throws ConnectorException {

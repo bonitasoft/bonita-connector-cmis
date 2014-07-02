@@ -81,7 +81,7 @@ public abstract class AbstractCMISConnector extends AbstractConnector {
         }else{
             throw new IllegalArgumentException("Invalid binding type : "+bindingType);
         }
-
+        cmisClient.connect();
     }
 
     @Override

@@ -174,7 +174,9 @@ public abstract class AbstractCmisClient {
     public Document uploadNewDocument(final String parentFolder, final String documentName, final byte[] documentContent, final String mimeType)
             throws ConnectorException {
         final Folder folder = getFolderByPath(parentFolder);
-
+        if (folder == null) {
+            throw new IllegalArgumentException("No folder with path \"" + parentFolder + "\" has been found in repositoty " + repositoryName);
+        }
         final Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
         properties.put(PropertyIds.NAME, documentName);
