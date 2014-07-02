@@ -30,7 +30,7 @@ import org.bonitasoft.engine.io.IOUtil;
 
 public class DownloadDocument extends AbstractCMISConnector {
 
-    public static final String DOCUMENT = "documentOuput";
+    public static final String DOCUMENT = "documentOutput";
     public static final String REMOTE_DOCUMENT_PATH = "remote_document_path";
 
     private String remote_path;

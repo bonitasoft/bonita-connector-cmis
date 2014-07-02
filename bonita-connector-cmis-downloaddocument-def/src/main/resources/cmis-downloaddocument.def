@@ -17,7 +17,7 @@
 	<input name="wsRepositoryServiceUrl" type="java.lang.String" mandatory="false" defaultValue="" />
 	<input name="wsRepositoryServiceEndpointUrl" type="java.lang.String" mandatory="false" defaultValue="" />
 
-    <output name="documentOuput" type="org.bonitasoft.engine.bpm.document.DocumentValue" />
+    <output name="documentOutput" type="org.bonitasoft.engine.bpm.document.DocumentValue" />
 
 	<page id="server">      
         <widget id="username" inputName="username" xsi:type="definition:Text" />
