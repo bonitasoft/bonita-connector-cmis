@@ -8,7 +8,7 @@
 
     <input name="username" type="java.lang.String" mandatory="true" defaultValue="admin" />
     <input name="password" type="java.lang.String" mandatory="true" defaultValue="password" />
-    <input name="url" type="java.lang.String" mandatory="false" defaultValue="http://YOUR_DMS/cmis" />
+    <input name="url" type="java.lang.String" mandatory="false" defaultValue="" />
     <input name="repository" type="java.lang.String" mandatory="true" defaultValue="Main Repository"/>
     <input name="binding_type" type="java.lang.String" mandatory="true" defaultValue="webservices" />
     <input name="folder_path" type="java.lang.String" mandatory="true" defaultValue="/path/to/your/folder" />
