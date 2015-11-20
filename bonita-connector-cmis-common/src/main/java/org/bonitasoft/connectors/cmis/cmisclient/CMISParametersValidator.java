@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bonitasoft.connectors.cmis.AbstractCMISConnector;
+import org.bonitasoft.engine.bpm.document.Document;
 
 public class CMISParametersValidator {
     private final Map<String, Object> parameters;
@@ -106,7 +107,7 @@ public class CMISParametersValidator {
             }
         }
         if (parameters.containsKey("document")) {
-            if (checkParameterNotNull("document")) {
+            if (checkAttachmentParameterNotNull("document")) {
                 errors.add("Document must be set");
             }
         }
@@ -127,5 +128,16 @@ public class CMISParametersValidator {
     private boolean checkParameterNotNull(final String parameter) {
         final String parameterValue = (String) parameters.get(parameter);
         return parameterValue == null || parameterValue.isEmpty();
+    }
+
+    private boolean checkAttachmentParameterNotNull(final String parameter) {
+        final Object attachment = parameters.get(parameter);
+        if (attachment instanceof String){
+            return attachment == null || ((String) attachment).isEmpty();
+        } else if (attachment instanceof Document) {
+            return attachment == null;
+        } else {
+            return true;
+        }
     }
 }
