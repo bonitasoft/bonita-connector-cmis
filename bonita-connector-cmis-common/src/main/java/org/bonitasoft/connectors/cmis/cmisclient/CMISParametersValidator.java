@@ -107,8 +107,8 @@ public class CMISParametersValidator {
             }
         }
         if (parameters.containsKey("document")) {
-            if (checkAttachmentParameterNotNull("document")) {
-                errors.add("Document must be set");
+            if (isParameterDocumentInvalid("document")) {
+                errors.add("Document must be document name or org.bonitasoft.engine.bpm.document.Document");
             }
         }
         if (parameters.containsKey("destinationName")) {
@@ -130,14 +130,13 @@ public class CMISParametersValidator {
         return parameterValue == null || parameterValue.isEmpty();
     }
 
-    private boolean checkAttachmentParameterNotNull(final String parameter) {
-        final Object attachment = parameters.get(parameter);
-        if (attachment instanceof String){
-            return attachment == null || ((String) attachment).isEmpty();
-        } else if (attachment instanceof Document) {
-            return attachment == null;
-        } else {
-            return true;
+    private boolean isParameterDocumentInvalid(final String parameter) {
+        final Object document = parameters.get(parameter);
+        if (document instanceof String){
+            return document == null || ((String) document).trim().isEmpty();
+        } else if (document instanceof Document) {
+            return document == null;
         }
+        return true;
     }
 }

@@ -50,7 +50,7 @@ public class CMISParametersValidatorTest {
         final CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
 
         assertThat(cmisParametersValidator.validateSpecificParameters(), hasItems(
-                "Document must be set",
+                "Document must be document name or org.bonitasoft.engine.bpm.document.Document",
                 "Folder path must be set",
                 "Destination name must be set",
                 "Remote document must be set",

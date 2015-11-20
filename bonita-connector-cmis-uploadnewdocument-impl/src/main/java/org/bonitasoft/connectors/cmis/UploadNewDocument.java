@@ -73,17 +73,16 @@ public class UploadNewDocument extends AbstractCMISConnector {
 
     private Document getDocument(Object attachment, ProcessAPI processAPI) throws ConnectorException {
         try {
-            if (attachment instanceof String && !((String) attachment).trim().isEmpty()) {
+            if (attachment instanceof String) {
                 String docName = (String) attachment;
                 long processInstanceId = getExecutionContext().getProcessInstanceId();
                 return processAPI.getLastDocument(processInstanceId, docName);
-            } else if (attachment instanceof Document) {
-                return (Document) attachment;
             } else {
-                throw new ConnectorException("Attachments must be document names or org.bonitasoft.engine.bpm.document.Document");
+                //Already checked in CMISParametersValidator
+                return (Document) attachment;
             }
         }catch( DocumentNotFoundException e){
-            throw new ConnectorException("Attachment is not found ", e);
+            throw new ConnectorException("Document is not found ", e);
         }
     }
 
