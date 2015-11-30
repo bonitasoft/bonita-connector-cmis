@@ -10,7 +10,6 @@
 	</parent>
 
 	<artifactId>bonita-connector-cmis</artifactId>
-	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -27,12 +26,14 @@
 		<module>bonita-connector-cmis-downloaddocument-impl</module>
 		<module>bonita-connector-cmis-uploadnewdocument-def</module>
 		<module>bonita-connector-cmis-uploadnewdocument-impl</module>
+		<module>bonita-connector-cmis-uploadnewdocuments-def</module>
+		<module>bonita-connector-cmis-uploadnewdocuments-impl</module>
 		<module>bonita-connector-cmis-uploadnewversionofdocument-def</module>
 		<module>bonita-connector-cmis-uploadnewversionofdocument-impl</module>
 	</modules>
 
 	<properties>
-		<bonita.engine.version>6.2.0</bonita.engine.version>
+		<bonita.engine.version>6.4.0</bonita.engine.version>
 	</properties>
 
 	<dependencies>
