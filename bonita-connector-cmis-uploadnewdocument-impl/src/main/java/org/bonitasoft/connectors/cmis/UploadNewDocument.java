@@ -33,7 +33,7 @@ public class UploadNewDocument extends AbstractCMISConnector {
     public static final String DESTINATION_NAME = "destinationName";
 
     private ProcessAPI processApi;
-    private String document;
+    private Object document;
     private String folder_path;
     private String destinationName;
 
@@ -41,7 +41,7 @@ public class UploadNewDocument extends AbstractCMISConnector {
     @Override
     public void setInputParameters(final Map<String, Object> parameters) {
         super.setInputParameters(parameters);
-        document = (String) parameters.get(DOCUMENT);
+        document = parameters.get(DOCUMENT);
         folder_path = (String) parameters.get(FOLDER_PATH);
         destinationName = (String) parameters.get(DESTINATION_NAME);
     }
@@ -54,7 +54,7 @@ public class UploadNewDocument extends AbstractCMISConnector {
         if (cmisClient == null) {
             throw new ConnectorException("CMIS UploadNewDocument connector is not connected properly.");
         }
-        final Document doc = getDocument(document);
+        final Document doc = getDocument(document, processApi);
         final byte[] documentContent = getDocumentContent(doc);
         final String documentId = cmisClient.uploadNewDocument(folder_path, destinationName, documentContent, doc.getContentMimeType()).getId();
 
@@ -71,14 +71,19 @@ public class UploadNewDocument extends AbstractCMISConnector {
         return documentContent;
     }
 
-    private Document getDocument(final String document) throws ConnectorException {
-        Document doc;
+    private Document getDocument(Object attachment, ProcessAPI processAPI) throws ConnectorException {
         try {
-            doc = processApi.getLastDocument(getExecutionContext().getProcessInstanceId(), document);
-        } catch (final DocumentNotFoundException e) {
-            throw new ConnectorException("Failed to retrieve document "+document, e);
+            if (attachment instanceof String) {
+                String docName = (String) attachment;
+                long processInstanceId = getExecutionContext().getProcessInstanceId();
+                return processAPI.getLastDocument(processInstanceId, docName);
+            } else {
+                //Already checked in CMISParametersValidator
+                return (Document) attachment;
+            }
+        }catch( DocumentNotFoundException e){
+            throw new ConnectorException("Document is not found ", e);
         }
-        return doc;
     }
 
 }

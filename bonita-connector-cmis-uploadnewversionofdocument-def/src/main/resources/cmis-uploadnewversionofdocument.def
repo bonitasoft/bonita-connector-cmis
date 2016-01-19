@@ -15,7 +15,7 @@
     <input name="wsObjectServiceEndpointUrl" type="java.lang.String" mandatory="false" defaultValue="" />
 	<input name="wsRepositoryServiceUrl" type="java.lang.String" mandatory="false" defaultValue="" />
 	<input name="wsRepositoryServiceEndpointUrl" type="java.lang.String" mandatory="false" defaultValue="" />
-    <input name="document" type="java.lang.String" mandatory="true"  />
+    <input name="document" type="java.lang.Object" mandatory="true"  />
     <input name="remote_document" type="java.lang.String" mandatory="true" defaultValue="/" />
 
     <output name="document_id" type="java.lang.String" />

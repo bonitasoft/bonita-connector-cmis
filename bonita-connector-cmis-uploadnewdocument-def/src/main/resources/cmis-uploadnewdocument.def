@@ -16,7 +16,7 @@
 	<input name="wsRepositoryServiceUrl" type="java.lang.String" mandatory="false" defaultValue="" />
 	<input name="wsRepositoryServiceEndpointUrl" type="java.lang.String" mandatory="false" defaultValue="" />
 
-    <input name="document" type="java.lang.String" mandatory="true"  />
+    <input name="document" type="java.lang.Object" mandatory="true"  />
     <input name="folder_path" type="java.lang.String" mandatory="true" defaultValue="/" />
     <input name="destinationName" type="java.lang.String" mandatory="true" defaultValue="myFile.txt" />
 
