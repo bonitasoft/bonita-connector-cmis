@@ -35,7 +35,7 @@
 	</modules>
 
 	<properties>
-		<bonita.engine.version>6.4.0</bonita.engine.version>
+		<bonita.engine.version>7.1.0</bonita.engine.version>
 	</properties>
 
 	<dependencies>

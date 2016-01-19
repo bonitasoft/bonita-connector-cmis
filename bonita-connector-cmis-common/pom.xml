@@ -9,10 +9,10 @@
 	</parent>
 
 	<artifactId>bonita-connector-cmis-common</artifactId>
-	<version>2.0.1</version>
+	<version>3.0.0</version>
     
     <properties>
-        <opencmis.version>0.11.0</opencmis.version>
+        <opencmis.version>0.13.0</opencmis.version>
         <cxf.version>2.7.7</cxf.version>
     </properties>
     
@@ -23,71 +23,15 @@
 			<version>${opencmis.version}</version>
 			<exclusions>
 				<exclusion>
-					<artifactId>saaj-impl</artifactId>
-					<groupId>com.sun.xml.messaging.saaj</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>saaj-api</artifactId>
-					<groupId>javax.xml.soap</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jaxb-api</artifactId>
-					<groupId>javax.xml.bind</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>stax-api</artifactId>
-					<groupId>javax.xml.stream</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>activation</artifactId>
-					<groupId>javax.activation</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>wstx-asl</artifactId>
-					<groupId>org.codehaus.woodstox</groupId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
 				</exclusion>
-				<exclusion>
-					<artifactId>jaxws-api</artifactId>
-					<groupId>javax.xml.ws</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.xml.ws</groupId>
-					<artifactId>jaxws-rt</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>junit</artifactId>
-					<groupId>junit</groupId>
-				</exclusion>
+			    <exclusion>
+			        <artifactId>woodstox-core-asl</artifactId>
+			        <groupId>org.codehaus.woodstox</groupId>
+			    </exclusion>
 			</exclusions>
 		</dependency>
-       <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jaxb-api</artifactId>
-                    <groupId>javax.xml.bind</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.xml.bind</groupId>
-                    <artifactId>jaxb-impl</artifactId>
-                </exclusion>
-            </exclusions>
-       </dependency>
-       <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
