@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	
+	<definitionId>cmis-uploadnewdocuments</definitionId>
+	<definitionVersion>$definition.version$</definitionVersion>
+    <description>Uploads a list of documents. Based on apache chemistry</description>
+	<implementationClassname>org.bonitasoft.connectors.cmis.UploadNewDocuments</implementationClassname>
+	<implementationId>cmis-uploadnewdocuments</implementationId>
+	<implementationVersion>$implementation.version$</implementationVersion>
+
+$Dependencies$
+
+</implementation:connectorImplementation>
