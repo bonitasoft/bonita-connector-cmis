@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>bonita-connector-cmis</artifactId>
-	<version>3.0.1</version>
+	<version>3.0.2-SNAPSHOT</version>
 
 
 
@@ -236,7 +236,7 @@
 		<developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-cmis.git</developerConnection>
 		<connection>scm:git:git@github.com:bonitasoft/bonita-connector-cmis.git</connection>
 		<url>https://github.com/bonitasoft/bonita-connector-cmis</url>
-		<tag>3.0.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 </project>
