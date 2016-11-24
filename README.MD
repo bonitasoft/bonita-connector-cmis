@@ -5,15 +5,15 @@ Enables interactions in your BonitaBPM processes with a CMIS compatible CMS.
 ##Description
 
 This connector provides the following actions:
-	 * _Create a folder_
-	 * _Delete a folder_
-	 * _Upload a new document_
-	 * _Upload a list of new documents_
-	 * _Upload a new version of a document_
-	 * _Download a document_
-	 * _Delete a document_
-	 * _List documents_
-	 * _List documents_
+* _Create a folder_
+* _Delete a folder_
+* _Upload a new document_
+* _Upload a list of new documents_
+* _Upload a new version of a document_
+* _Download a document_
+* _Delete a document_
+* _Delete a version of a document_
+* _List documents_
 
 ##Build
 
