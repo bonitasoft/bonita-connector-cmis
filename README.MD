@@ -1,8 +1,8 @@
-#CMIS Connector
+# CMIS Connector
 
-Enables interactions in your BonitaBPM processes with a CMIS compatible CMS.
+Enables interactions in your Bonita processes with a CMIS compatible CMS.
 
-##Description
+## Description
 
 This connector provides the following actions:
 * _Create a folder_
@@ -15,13 +15,13 @@ This connector provides the following actions:
 * _Delete a version of a document_
 * _List documents_
 
-##Build
+## Build
 
 __Clone__ or __fork__ this repository, then at the root of the project run:
 
 `mvn clean verify`
 
-##Release
+## Release
 
 Before releasing a new version make sure that the versionning of `.def` files are consistent with the implementation. In order to create a new release of the connector use the [_maven release plugin_](http://maven.apache.org/maven-release/maven-release-plugin/):
 
