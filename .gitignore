@@ -1,4 +1,10 @@
 target
+
+# Eclise IDE
 .settings
 .project
 .classpath
+
+# IntelliJ IDE
+/.idea/
+*.iml
