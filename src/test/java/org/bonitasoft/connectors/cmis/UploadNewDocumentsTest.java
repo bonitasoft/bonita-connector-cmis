@@ -5,8 +5,10 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.any;
 
 import java.util.ArrayList;
@@ -18,8 +20,10 @@ import org.bonitasoft.connectors.cmis.cmisclient.AbstractCmisClient;
 import org.bonitasoft.engine.api.APIAccessor;
 import org.bonitasoft.engine.bpm.document.Document;
 import org.bonitasoft.engine.connector.ConnectorException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
@@ -35,6 +39,14 @@ public class UploadNewDocumentsTest {
 	@Mock
 	Document mockDoc;
 	
+	@Before
+	public void initConnector() throws ConnectorException {
+	    connector.setInputParameters(new HashMap<String, Object>());
+	    when(mockDoc.getContentMimeType()).thenReturn("text/plain");
+	    when(mockDoc.getContentFileName()).thenReturn("myDoc.txt");
+	    doReturn(new byte[0]).when(connector).getDocumentContent(mockDoc);
+	}
+	
 	@Test
 	public void should_getDocumentsFromInputParameter_call_getDocumentFromName_when_document_is_a_string() throws ConnectorException {
 		List<Document> mockDocs = new ArrayList<Document>();
@@ -43,9 +55,7 @@ public class UploadNewDocumentsTest {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(UploadNewDocuments.DOCUMENTS, DOCUMENT_NAME);
 		connector.setInputParameters(parameters);
-		
 		connector.getDocumentsFromInputParameter();
-		
 		verify(connector).getDocumentsFromName(DOCUMENT_NAME);
 	}
 	
@@ -124,19 +134,22 @@ public class UploadNewDocumentsTest {
 		mockDocs.add(mockDoc);
 		mockDocs.add(mockDoc);
 		
+		Map<String, Object> params = new HashMap<>();
+		params.put(UploadNewDocuments.FOLDER_PATH, "/some/path");
+		connector.setInputParameters(params);
 		APIAccessor apiAccessor = Mockito.mock(APIAccessor.class);
 		doReturn(apiAccessor).when(connector).getAPIAccessor();
 		
 		org.apache.chemistry.opencmis.client.api.Document cmisDocument = Mockito.mock(org.apache.chemistry.opencmis.client.api.Document.class);
+		when(cmisDocument.getId()).thenReturn("1");
 		AbstractCmisClient client = Mockito.mock(AbstractCmisClient.class);
-		doReturn(cmisDocument).when(client).uploadNewDocument(anyString(), anyString(), any(byte[].class), anyString());
+		when(client.uploadNewDocument(any(String.class), any(String.class), any(byte[].class), any(String.class))).thenReturn(cmisDocument);
 		
 		doReturn(client).when(connector).getClient();
 		doReturn(mockDocs).when(connector).getDocumentsFromInputParameter();
-		doReturn(null).when(connector).getDocumentContent(any(Document.class));
 		
 		connector.executeBusinessLogic();
 		
-		verify(client, times(2)).uploadNewDocument(anyString(), anyString(), any(byte[].class), anyString());
+		verify(client, times(2)).uploadNewDocument(any(String.class), any(String.class), any(byte[].class), any(String.class));
 	}
 }

@@ -58,8 +58,7 @@ public class UploadNewDocuments extends AbstractCMISConnector {
         List<Document> documents = getDocumentsFromInputParameter();
         // Upload documents
         remoteDocumentIds = new ArrayList<String>();
-        for (Document document : documents)
-        {
+        for (Document document : documents){
             final byte[] documentContent = getDocumentContent(document);
             final String remoteDocumentId = cmisClient.uploadNewDocument(folder_path, document.getContentFileName(), documentContent, document.getContentMimeType()).getId();
             remoteDocumentIds.add(remoteDocumentId);

@@ -1,9 +1,10 @@
 target
 
-# Eclise IDE
+# Eclipse IDE
 .settings
 .project
 .classpath
+/bin
 
 # IntelliJ IDE
 /.idea/
