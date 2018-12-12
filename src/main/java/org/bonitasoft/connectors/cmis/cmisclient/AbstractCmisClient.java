@@ -81,10 +81,6 @@ public abstract class AbstractCmisClient {
 
     /**
      * Retrieve the repositories
-     * @param username the username to access the server
-     * @param password the password to access the server
-     * @param url the URL of the server. It may differ depending on the binding type
-     * @param bindingType the protocol to use to connect the server. Atom or Webservice are supported
      * @return The list of repositories
      */
     public List<Repository> getRepositories() {
