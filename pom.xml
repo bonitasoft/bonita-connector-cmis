@@ -16,62 +16,62 @@
 		<maven.build.timestamp.format>yyyy.MM.dd-hh.mm</maven.build.timestamp.format>
 
 		<bonita.engine.version>7.8.0</bonita.engine.version>
-		
+
 		<!-- Connectors -->
 		<cmis-createfolder.def.id>cmis-createfolder</cmis-createfolder.def.id>
 		<cmis-createfolder.def.version>2.0.1</cmis-createfolder.def.version>
 		<cmis-createfolder.impl.id>${cmis-createfolder.def.id}-impl</cmis-createfolder.impl.id>
 		<cmis-createfolder.impl.version>${project.version}</cmis-createfolder.impl.version>
 		<cmis-createfolder.main-class>org.bonitasoft.connectors.cmis.CreateFolder</cmis-createfolder.main-class>
-		
+
 		<cmis-deletefolder.def.id>cmis-deletefolder</cmis-deletefolder.def.id>
 		<cmis-deletefolder.def.version>2.0.1</cmis-deletefolder.def.version>
 		<cmis-deletefolder.impl.id>${cmis-deletefolder.def.id}-impl</cmis-deletefolder.impl.id>
 		<cmis-deletefolder.impl.version>${project.version}</cmis-deletefolder.impl.version>
 		<cmis-deletefolder.main-class>org.bonitasoft.connectors.cmis.DeleteFolder</cmis-deletefolder.main-class>
-		
+
 		<cmis-deletedocument.def.id>cmis-deletedocument</cmis-deletedocument.def.id>
 		<cmis-deletedocument.def.version>2.0.1</cmis-deletedocument.def.version>
 		<cmis-deletedocument.impl.id>${cmis-deletedocument.def.id}-impl</cmis-deletedocument.impl.id>
 		<cmis-deletedocument.impl.version>${project.version}</cmis-deletedocument.impl.version>
 		<cmis-deletedocument.main-class>org.bonitasoft.connectors.cmis.DeleteDocument</cmis-deletedocument.main-class>
-		
+
 		<cmis-deleteversionofdocument.def.id>cmis-deleteversionofdocument</cmis-deleteversionofdocument.def.id>
 		<cmis-deleteversionofdocument.def.version>2.0.1</cmis-deleteversionofdocument.def.version>
 		<cmis-deleteversionofdocument.impl.id>${cmis-deleteversionofdocument.def.id}-impl</cmis-deleteversionofdocument.impl.id>
 		<cmis-deleteversionofdocument.impl.version>${project.version}</cmis-deleteversionofdocument.impl.version>
 		<cmis-deleteversionofdocument.main-class>org.bonitasoft.connectors.cmis.DeleteVersionOfDocument</cmis-deleteversionofdocument.main-class>
-		
+
 		<cmis-downloadadocument.def.id>cmis-downloadadocument</cmis-downloadadocument.def.id>
 		<cmis-downloadadocument.def.version>2.0.1</cmis-downloadadocument.def.version>
 		<cmis-downloadadocument.impl.id>${cmis-downloadadocument.def.id}</cmis-downloadadocument.impl.id>
 		<cmis-downloadadocument.impl.version>${project.version}</cmis-downloadadocument.impl.version>
 		<cmis-downloadadocument.main-class>org.bonitasoft.connectors.cmis.DownloadDocument</cmis-downloadadocument.main-class>
-		
+
 		<cmis-listdocuments.def.id>cmis-listdocuments</cmis-listdocuments.def.id>
 		<cmis-listdocuments.def.version>1.0.0</cmis-listdocuments.def.version>
 		<cmis-listdocuments.impl.id>${cmis-listdocuments.def.id}-impl</cmis-listdocuments.impl.id>
 		<cmis-listdocuments.impl.version>${project.version}</cmis-listdocuments.impl.version>
 		<cmis-listdocuments.main-class>org.bonitasoft.connectors.cmis.ListDocuments</cmis-listdocuments.main-class>
-		
+
 		<cmis-uploadnewdocument.def.id>cmis-uploadnewdocument</cmis-uploadnewdocument.def.id>
 		<cmis-uploadnewdocument.def.version>2.0.1</cmis-uploadnewdocument.def.version>
 		<cmis-uploadnewdocument.impl.id>${cmis-uploadnewdocument.def.id}-impl</cmis-uploadnewdocument.impl.id>
 		<cmis-uploadnewdocument.impl.version>${project.version}</cmis-uploadnewdocument.impl.version>
 		<cmis-uploadnewdocument.main-class>org.bonitasoft.connectors.cmis.UploadNewDocument</cmis-uploadnewdocument.main-class>
-		
+
 		<cmis-uploadnewdocuments.def.id>cmis-uploadnewdocuments</cmis-uploadnewdocuments.def.id>
 		<cmis-uploadnewdocuments.def.version>1.0.0</cmis-uploadnewdocuments.def.version>
 		<cmis-uploadnewdocuments.impl.id>${cmis-uploadnewdocuments.def.id}-impl</cmis-uploadnewdocuments.impl.id>
 		<cmis-uploadnewdocuments.impl.version>${project.version}</cmis-uploadnewdocuments.impl.version>
 		<cmis-uploadnewdocuments.main-class>org.bonitasoft.connectors.cmis.UploadNewDocuments</cmis-uploadnewdocuments.main-class>
-		
+
 		<cmis-uploadnewversionofdocument.def.id>cmis-uploadnewversionofdocument</cmis-uploadnewversionofdocument.def.id>
 		<cmis-uploadnewversionofdocument.def.version>2.0.1</cmis-uploadnewversionofdocument.def.version>
 		<cmis-uploadnewversionofdocument.impl.id>${cmis-uploadnewversionofdocument.def.id}-impl</cmis-uploadnewversionofdocument.impl.id>
 		<cmis-uploadnewversionofdocument.impl.version>${project.version}</cmis-uploadnewversionofdocument.impl.version>
 		<cmis-uploadnewversionofdocument.main-class>org.bonitasoft.connectors.cmis.UploadNewVersionOfDocument</cmis-uploadnewversionofdocument.main-class>
-		
+
 		<!-- Dependencies -->
 		<jaxb.version>2.2.7</jaxb.version>
 		<opencmis.version>1.1.0</opencmis.version>
@@ -381,6 +381,51 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<!-- Deployment profile (required so these plugins are only used when deploying) -->
+		<profile>
+			<id>deploy</id>
+			<build>
+				<plugins>
+					<!-- GPG plugin -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<configuration>
+									<!-- Prevent `gpg` from using pinentry programs -->
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<distributionManagement>
+		<!-- Central Repository -->
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 
 	<scm>
