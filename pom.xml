@@ -8,6 +8,27 @@
 	<artifactId>bonita-connector-cmis</artifactId>
 	<version>3.0.5-SNAPSHOT</version>
 
+	<name>Bonita CMIS Connector</name>
+	<description>CMIS Connectors for Bonita</description>
+	<url>https://www.bonitasoft.com</url>
+
+	<developers>
+		<developer>
+			<id>bonitasoft</id>
+			<name>Bonitasoft</name>
+			<email>rd.user@bonitasoft.com</email>
+			<organization>Bonitasoft</organization>
+			<organizationUrl>https://www.bonitasoft.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>GPL-v2.0</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+		</license>
+	</licenses>
+
 	<properties>
 		<!-- Maven -->
 		<java.version>1.8</java.version>
