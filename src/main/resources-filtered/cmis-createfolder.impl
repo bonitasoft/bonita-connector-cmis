@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	
+	<definitionId>${cmis-createfolder.def.id}</definitionId>
+	<definitionVersion>${cmis-createfolder.def.version}</definitionVersion>
+    <description>Create a CMIS folder. Based on apache chemistry</description>
+	<implementationClassname>${cmis-createfolder.main-class}</implementationClassname>
+	<implementationId>${cmis-createfolder.impl.id}</implementationId>
+	<implementationVersion>${cmis-createfolder.impl.version}</implementationVersion>
+
+${connector-dependencies}
+
+</implementation:connectorImplementation>

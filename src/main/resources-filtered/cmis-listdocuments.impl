@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	
+	<definitionId>${cmis-listdocuments.def.id}</definitionId>
+	<definitionVersion>${cmis-listdocuments.def.version}</definitionVersion>
+    <description>List documents from a CMIS folder. Based on Apache Chemistry</description>
+	<implementationClassname>${cmis-listdocuments.main-class}</implementationClassname>
+	<implementationId>${cmis-listdocuments.impl.id}</implementationId>
+	<implementationVersion>${cmis-listdocuments.impl.version}</implementationVersion>
+
+${connector-dependencies}
+
+</implementation:connectorImplementation>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<id>${cmis-uploadnewdocuments.def.id}</id>
+	<version>${cmis-uploadnewdocuments.def.version}</version>
+	<icon>cmis.png</icon>
+
+	<category id="cms" icon="CMS.png" />
+	<category id="cmis" icon="cmis.png" parentCategoryId="cms" />
+
+    <input name="username" type="java.lang.String" mandatory="true" defaultValue="admin" />
+    <input name="password" type="java.lang.String" mandatory="true" defaultValue="password" />
+    <input name="url" type="java.lang.String" mandatory="false" defaultValue="" />
+    <input name="repository" type="java.lang.String" mandatory="true" defaultValue="Main Repository"/>
+    <input name="binding_type" type="java.lang.String" mandatory="true" defaultValue="webservices" />
+    <input name="wsObjectServiceUrl" type="java.lang.String" mandatory="false" defaultValue="" />
+    <input name="wsObjectServiceEndpointUrl" type="java.lang.String" mandatory="false" defaultValue="" />
+	<input name="wsRepositoryServiceUrl" type="java.lang.String" mandatory="false" defaultValue="" />
+	<input name="wsRepositoryServiceEndpointUrl" type="java.lang.String" mandatory="false" defaultValue="" />
+
+    <input name="documents" type="java.lang.Object" mandatory="true"  />
+    <input name="folder_path" type="java.lang.String" mandatory="true" />
+
+    <output name="document_ids" type="java.util.List" />
+
+	<page id="server">
+        <widget id="username" inputName="username" xsi:type="definition:Text" />
+        <widget id="password" inputName="password" xsi:type="definition:Password" />
+        <widget id="repository" inputName="repository" xsi:type="definition:Text"/>
+        <widget id="binding_type" inputName="binding_type" xsi:type="definition:Select" readOnly="false">
+            <items>atompub</items>
+            <items>webservices</items>
+        </widget>
+        <widget id="atompubConfigGroup" xsi:type="definition:Group" optional="false">
+        	<widget id="url" inputName="url" xsi:type="definition:Text"/>
+        </widget>
+        <widget id="wsServiceConfigGroup" xsi:type="definition:Group" optional="false">
+        	 <widget id="wsRepositoryServiceUrl" inputName="wsRepositoryServiceUrl" xsi:type="definition:Text" />
+        	 <widget id="wsRepositoryServiceEndpointUrl" inputName="wsRepositoryServiceEndpointUrl" xsi:type="definition:Text" />
+        	 <widget id="wsObjectServiceUrl" inputName="wsObjectServiceUrl" xsi:type="definition:Text" />
+        	 <widget id="wsObjectServiceEndpointUrl" inputName="wsObjectServiceEndpointUrl" xsi:type="definition:Text" />
+        </widget>
+    </page>
+
+    <page id="documentPage">
+        <widget id="documents" inputName="documents" xsi:type="definition:Text" showDocuments="true" />
+        <widget id="folder_path" inputName="folder_path" xsi:type="definition:Text" />
+    </page>
+
+</definition:ConnectorDefinition>
