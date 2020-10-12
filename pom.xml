@@ -6,7 +6,7 @@
 
 	<groupId>org.bonitasoft.connectors</groupId>
 	<artifactId>bonita-connector-cmis</artifactId>
-	<version>3.0.4-SNAPSHOT</version>
+	<version>3.0.5-SNAPSHOT</version>
 
 	<properties>
 		<!-- Maven -->
