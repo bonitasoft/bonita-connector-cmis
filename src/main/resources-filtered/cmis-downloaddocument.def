@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<id>${cmis-downloaddocument.def.id}</id>
-	<version>${cmis-downloaddocument.def.version}</version>
+	<id>${cmis-downloadadocument.def.id}</id>
+	<version>${cmis-downloadadocument.def.version}</version>
 	<icon>cmis.png</icon>
 
 	<category id="cms" icon="CMS.png" />

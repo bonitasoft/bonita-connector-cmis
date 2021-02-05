@@ -63,9 +63,9 @@
 		<cmis-deleteversionofdocument.impl.version>${project.version}</cmis-deleteversionofdocument.impl.version>
 		<cmis-deleteversionofdocument.main-class>org.bonitasoft.connectors.cmis.DeleteVersionOfDocument</cmis-deleteversionofdocument.main-class>
 
-		<cmis-downloadadocument.def.id>cmis-downloadadocument</cmis-downloadadocument.def.id>
+		<cmis-downloadadocument.def.id>cmis-downloaddocument</cmis-downloadadocument.def.id>
 		<cmis-downloadadocument.def.version>2.0.1</cmis-downloadadocument.def.version>
-		<cmis-downloadadocument.impl.id>${cmis-downloadadocument.def.id}</cmis-downloadadocument.impl.id>
+		<cmis-downloadadocument.impl.id>${cmis-downloadadocument.def.id}-impl</cmis-downloadadocument.impl.id>
 		<cmis-downloadadocument.impl.version>${project.version}</cmis-downloadadocument.impl.version>
 		<cmis-downloadadocument.main-class>org.bonitasoft.connectors.cmis.DownloadDocument</cmis-downloadadocument.main-class>
 
