@@ -18,13 +18,12 @@
 package org.bonitasoft.connectors.cmis.cmisclient;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsCollectionContaining.hasItem;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class CMISParametersValidatorTest {
@@ -46,8 +45,8 @@ class CMISParametersValidatorTest {
         parameters.put("binding_type", "b");
 
         final CMISParametersValidator cmisParametersValidator = new CMISParametersValidator(parameters);
-        assertThat(cmisParametersValidator.validateCommonParameters(), hasItem(
-                "Binding type should be either atompub or webservices"));
+        Assertions.assertThat(cmisParametersValidator.validateCommonParameters()).contains(
+                "Binding type should be either atompub or webservices");
     }
 
     @Test
