@@ -1,6 +1,6 @@
 # CMIS Connector
 
-[![Actions Status](https://github.com/bonitasoft/bonita-connector-email/workflows/Build/badge.svg)](https://github.com/bonitasoft/bonita-connector-cmis/actions?query=workflow%3ABuild)
+[![Build](https://github.com/bonitasoft/bonita-connector-cmis/actions/workflows/build.yml/badge.svg)](https://github.com/bonitasoft/bonita-connector-cmis/actions/workflows/build.yml)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=bonitasoft_bonita-connector-cmis&metric=alert_status)](https://sonarcloud.io/dashboard?id=bonitasoft_bonita-connector-cmis)
 [![GitHub release](https://img.shields.io/github/v/release/bonitasoft/bonita-connector-cmis?color=blue&label=Release)](https://github.com/bonitasoft/bonita-connector-cmis/releases)
 [![Maven Central](https://img.shields.io/maven-central/v/org.bonitasoft.connectors/bonita-connector-cmis.svg?label=Maven%20Central&color=orange)](https://search.maven.org/search?q=g:%22org.bonitasoft.connectors%22%20AND%20a:%22bonita-connector-cmis%22)
