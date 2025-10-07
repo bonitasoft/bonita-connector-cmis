@@ -35,6 +35,8 @@ In order to create a new release:
 - Update the `master` with the next SNAPSHOT version
 - Update the marketplace
 
+Once this is done, update the [Bonita marketplace repository](https://github.com/bonitasoft/bonita-marketplace) with the new version of the connector.
+
 ## Contributing
 
 We would love you to contribute, pull requests are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
