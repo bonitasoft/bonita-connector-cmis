@@ -76,7 +76,7 @@ CMISParametersValidator      — validates connector input parameters
 - Unit tests mock `AbstractCmisClient` and Bonita Engine APIs; no live CMIS server required
 - Coverage reported by JaCoCo (`target/site/jacoco/`)
 - To add a test: extend the connector class under test, mock its `getClient()` return value, call `executeBusinessLogic()`, and assert outputs via `getOutputParameters()`
-- Runtime ITs (`src/test/java/.../cmis/it/`, failsafe, Docker required): `CreateFolderRuntimeIT` deploys the packaged zip in a process on the `bonita.image` runtime against an OpenCMIS InMemory server (Tomcat container), with both bindings. They catch classes missing at runtime, invisible at compile time.
+- Runtime ITs (`src/test/java/.../cmis/it/`, failsafe, Docker required): `CmisConnectorsRuntimeIT` deploys the packaged zips in processes on the `bonita.image` runtime against an OpenCMIS InMemory server (Tomcat container), with both bindings: create folder and download a document (content transfer; upload is not testable there, see the IT Javadoc). They catch classes missing at runtime, invisible at compile time.
 
 ## Commit Message Format
 
@@ -86,7 +86,7 @@ This project uses **Conventional Commits**:
 <type>(<scope>): <short description>
 
 Types: feat | fix | chore | docs | refactor | test | ci | build | perf
-Scope: optional, e.g. upload, download, ci
+Scope: required (enforced by `commit-message-check.yml`), e.g. upload, download, ci, jakarta
 ```
 
 Examples:
