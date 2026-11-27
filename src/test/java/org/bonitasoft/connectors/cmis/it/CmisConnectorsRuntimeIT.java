@@ -47,7 +47,6 @@ import org.bonitasoft.connectors.cmis.AbstractCMISConnector;
 import org.bonitasoft.connectors.cmis.CreateFolder;
 import org.bonitasoft.connectors.cmis.DownloadDocument;
 import org.bonitasoft.engine.bpm.bar.BarResource;
-import org.bonitasoft.engine.bpm.bar.BusinessArchive;
 import org.bonitasoft.engine.bpm.bar.BusinessArchiveBuilder;
 import org.bonitasoft.engine.bpm.bar.actorMapping.Actor;
 import org.bonitasoft.engine.bpm.bar.actorMapping.ActorMapping;
@@ -204,7 +203,7 @@ class CmisConnectorsRuntimeIT {
         var bar = new BusinessArchiveBuilder().createNewBusinessArchive().setProcessDefinition(process.done());
         try (var zip = new ZipFile(packagedZip("all").toFile())) {
             var classpath = classpathJars(zip);
-            for (var entry : zip.stream().collect(Collectors.toList())) {
+            for (var entry : zip.stream().toList()) {
                 var name = Path.of(entry.getName()).getFileName().toString();
                 if (name.endsWith(".impl")) {
                     bar.addConnectorImplementation(new BarResource(name, zip.getInputStream(entry).readAllBytes()));
