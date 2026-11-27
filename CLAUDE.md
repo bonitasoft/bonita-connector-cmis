@@ -5,10 +5,10 @@
 - **Name:** Bonita CMIS Connector
 - **Description:** CMIS Connectors for Bonita — enables interactions in Bonita BPM processes with any CMIS-compatible CMS (e.g., Alfresco, Documentum)
 - **Group/Artifact:** `org.bonitasoft.connectors:bonita-connector-cmis`
-- **Current version:** 3.0.6-SNAPSHOT
+- **Current version:** 4.0.0-SNAPSHOT (Bonita 12+; 3.x = Bonita 7.14 to 11.x, no support branch: fix from the last commit before the Jakarta migration)
 - **License:** GPL v2
-- **Java:** 11
-- **Tech stack:** Java 11, Apache Chemistry OpenCMIS 1.1.0, Bonita Engine 7.14.0, JUnit 5, Mockito 5, AssertJ, JaCoCo, Maven Assembly Plugin, SonarCloud
+- **Java:** 17
+- **Tech stack:** Java 17, Apache Chemistry OpenCMIS 1.1.0 (with CXF 3.6, javax JAXB 2.3 bundled), Bonita runtime BOM 12.0, JUnit 6, Mockito 5, AssertJ, Testcontainers, JaCoCo, Maven Assembly Plugin, SonarCloud
 
 ## Build Commands
 
@@ -66,6 +66,8 @@ CMISParametersValidator      — validates connector input parameters
 - Outputs are set via `setOutputParameter(key, value)` inside `executeBusinessLogic()`.
 - Resource descriptors (`.def`, `.impl`, `.properties` i18n files) live in `src/main/resources` and `src/main/resources-filtered`; filtered resources use Maven property substitution for IDs/versions.
 - Each connector is packaged independently via `src/assembly/*-assembly.xml`.
+- OpenCMIS is javax-based while the Bonita 12 runtime only ships jakarta: the javax JAXB/activation stack is bundled (`compile`). The Bonita BOM manages several of these coordinates (`jakarta.xml.bind-api`, `jakarta.annotation-api`, `jaxb-runtime`...) to their jakarta releases, hence the explicit versions and exclusions in `pom.xml`: check `./mvnw dependency:tree` after any dependency change.
+- The Bonita 12 runtime forbids connectors to write system properties: pass settings as OpenCMIS session parameters.
 
 ## Testing Strategy
 
@@ -74,6 +76,7 @@ CMISParametersValidator      — validates connector input parameters
 - Unit tests mock `AbstractCmisClient` and Bonita Engine APIs; no live CMIS server required
 - Coverage reported by JaCoCo (`target/site/jacoco/`)
 - To add a test: extend the connector class under test, mock its `getClient()` return value, call `executeBusinessLogic()`, and assert outputs via `getOutputParameters()`
+- Runtime ITs (`src/test/java/.../cmis/it/`, failsafe, Docker required): `CreateFolderRuntimeIT` deploys the packaged zip in a process on the `bonita.image` runtime against an OpenCMIS InMemory server (Tomcat container), with both bindings. They catch classes missing at runtime, invisible at compile time.
 
 ## Commit Message Format
 
