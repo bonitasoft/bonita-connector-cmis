@@ -21,11 +21,22 @@ This connector provides the following actions:
 * _Delete a version of a document_
 * _List documents_
 
+## Compatibility
+
+| Connector | Bonita         | Java         |
+|-----------|----------------|--------------|
+| 4.x       | 12.0 and later | 17 and later |
+| 3.x       | 7.14 to 11.x   | 11 and later |
+
+4.x bundles the `javax` JAXB stack and CXF 3.6 needed by Apache Chemistry OpenCMIS, since the Bonita 12 runtime only provides the `jakarta` one.
+
 ## Build
 
 __Clone__ or __fork__ this repository, then at the root of the project run:
 
 `./mvnw`
+
+The runtime integration tests (`*IT`) deploy the connectors on a Bonita Docker image (`bonita.image` property) against an OpenCMIS InMemory server, and need Docker.
 
 ## Release
 

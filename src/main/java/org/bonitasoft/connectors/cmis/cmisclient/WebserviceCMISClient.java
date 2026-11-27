@@ -35,8 +35,6 @@ public class WebserviceCMISClient extends AbstractCmisClient {
         super(username, password, repositoryName);
         ckeckServiceBinding(serviceBinding);
         this.serviceBinding = serviceBinding;
-        System.setProperty(SessionParameter.WEBSERVICES_JAXWS_IMPL, CmisWebServicesSpi.JAXWS_IMPL_CXF);
-        System.setProperty("javax.xml.parsers.DocumentBuilderFactory", "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
     }
 
 
@@ -51,6 +49,8 @@ public class WebserviceCMISClient extends AbstractCmisClient {
         final Map<String, String> parameters = super.configure();
         parameters.putAll(serviceBinding);
         parameters.put(SessionParameter.BINDING_TYPE, BindingType.WEBSERVICES.value());
+        // session parameter, not a system property: the Bonita 12 runtime forbids connectors to write system properties
+        parameters.put(SessionParameter.WEBSERVICES_JAXWS_IMPL, CmisWebServicesSpi.JAXWS_IMPL_CXF);
 
         putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_ACL_SERVICE);
         putEmptyParameterIfNotExists(parameters, SessionParameter.WEBSERVICES_DISCOVERY_SERVICE);
